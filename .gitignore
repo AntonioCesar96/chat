@@ -287,5 +287,5 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-src\Chat.Api\appsettings.Development.json
-src\Chat.Api\appsettings.json
+appsettings.Development.json
+appsettings.json
