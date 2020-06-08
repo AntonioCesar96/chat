@@ -10,8 +10,7 @@ namespace Chat.Domain.Conversas.Entities
         public virtual Contato ContatoUm { get; private set; }
         public int ContatoDoisId { get; private set; }
         public virtual Contato ContatoDois { get; private set; }
-        public string Mensagem { get; private set; }
-        public DateTime DataEnvio { get; private set; }
+        public DateTime DataCriacao { get; private set; }
 
         public Conversa() { }
     }

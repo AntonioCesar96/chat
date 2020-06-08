@@ -21,8 +21,7 @@ namespace Chat.Infra.Data.Mapping
                 .HasForeignKey(_ => _.ContatoDoisId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(f => f.Mensagem).IsRequired();
-            builder.Property(f => f.DataEnvio).IsRequired();
+            builder.Property(f => f.DataCriacao).IsRequired();
 
             builder.ToTable(nameof(Conversa));
         }
