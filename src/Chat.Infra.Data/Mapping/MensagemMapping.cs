@@ -11,18 +11,24 @@ namespace Chat.Infra.Data.Mapping
         {
             builder.Property(s => s.ConversaId).IsRequired();
             builder.HasOne(s => s.Conversa)
-                .WithMany()
-                .HasForeignKey(_ => _.ConversaId)
+                .WithMany(s => s.Mensagens)
+                .HasForeignKey(s => s.ConversaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(s => s.ContatoId).IsRequired();
-            builder.HasOne(s => s.Contato)
+            builder.Property(s => s.ContatoRemetenteId).IsRequired();
+            builder.HasOne(s => s.ContatoRemetente)
                 .WithMany()
-                .HasForeignKey(_ => _.ContatoId)
+                .HasForeignKey(s => s.ContatoRemetenteId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(f => f.MensagemEnviada).IsRequired();
-            builder.Property(f => f.DataEnvio).IsRequired();
+            builder.Property(s => s.ContatoDestinatarioId).IsRequired();
+            builder.HasOne(s => s.ContatoDestinatario)
+                .WithMany()
+                .HasForeignKey(s => s.ContatoDestinatarioId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(s => s.MensagemEnviada).IsRequired();
+            builder.Property(s => s.DataEnvio).IsRequired();
 
             builder.ToTable(nameof(Mensagem));
         }

@@ -9,19 +9,19 @@ namespace Chat.Infra.Data.Mapping
     {
         public override void Map(EntityTypeBuilder<Conversa> builder)
         {
-            builder.Property(s => s.ContatoUmId).IsRequired();
-            builder.HasOne(s => s.ContatoUm)
+            builder.Property(s => s.ContatoCriadorDaConversaId).IsRequired();
+            builder.HasOne(s => s.ContatoCriadorDaConversa)
                 .WithMany()
-                .HasForeignKey(_ => _.ContatoUmId)
+                .HasForeignKey(s => s.ContatoCriadorDaConversaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(s => s.ContatoDoisId).IsRequired();
-            builder.HasOne(s => s.ContatoDois)
+            builder.Property(s => s.ContatoId).IsRequired();
+            builder.HasOne(s => s.Contato)
                 .WithMany()
-                .HasForeignKey(_ => _.ContatoDoisId)
+                .HasForeignKey(s => s.ContatoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(f => f.DataCriacao).IsRequired();
+            builder.Property(s => s.DataCriacao).IsRequired();
 
             builder.ToTable(nameof(Conversa));
         }

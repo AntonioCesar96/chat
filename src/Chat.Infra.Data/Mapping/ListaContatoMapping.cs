@@ -12,13 +12,13 @@ namespace Chat.Infra.Data.Mapping
             builder.Property(s => s.ContatoPrincipalId).IsRequired();
             builder.HasOne(s => s.ContatoPrincipal)
                 .WithMany()
-                .HasForeignKey(_ => _.ContatoPrincipalId)
+                .HasForeignKey(s => s.ContatoPrincipalId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(s => s.ContatoAmigoId).IsRequired();
             builder.HasOne(s => s.ContatoAmigo)
                 .WithMany()
-                .HasForeignKey(_ => _.ContatoAmigoId)
+                .HasForeignKey(s => s.ContatoAmigoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.ToTable(nameof(ListaContato));

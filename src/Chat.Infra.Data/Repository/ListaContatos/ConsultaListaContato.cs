@@ -21,34 +21,27 @@ namespace Chat.Infra.Data.Repository.ListaContatos
 
         public ResultadoDaConsulta ObterContatosAmigos(ListaContatoFiltroDto filtro)
         {
-            try
-            {
-                var retorno = new ResultadoDaConsulta();
+            var retorno = new ResultadoDaConsulta();
 
-                var pagina = filtro.Pagina > 0 ? filtro.Pagina : 1;
-                var calculoPaginacao = (pagina - 1) * filtro.TotalPorPagina;
+            var pagina = filtro.Pagina > 0 ? filtro.Pagina : 1;
+            var calculoPaginacao = (pagina - 1) * filtro.TotalPorPagina;
 
-                var listaContatos = _dbContext.Set<ListaContato>()
-                    .Include(x => x.ContatoAmigo)
-                    .Where(p => 
-                        p.ContatoPrincipalId == filtro.ContatoPrincipalId
-                        && (string.IsNullOrEmpty(filtro.NomeAmigo) || p.ContatoAmigo.Nome.Contains(filtro.NomeAmigo.Trim().ToLower()))
-                        && (string.IsNullOrEmpty(filtro.EmailAmigo) || p.ContatoAmigo.Email.Contains(filtro.EmailAmigo.Trim().ToLower()))
-                    );
+            var listaContatos = _dbContext.Set<ListaContato>()
+                .Include(x => x.ContatoAmigo)
+                .Where(p => 
+                    p.ContatoPrincipalId == filtro.ContatoPrincipalId
+                    && (string.IsNullOrEmpty(filtro.NomeAmigo) || p.ContatoAmigo.Nome.Contains(filtro.NomeAmigo.Trim().ToLower()))
+                    && (string.IsNullOrEmpty(filtro.EmailAmigo) || p.ContatoAmigo.Email.Contains(filtro.EmailAmigo.Trim().ToLower()))
+                );
 
-                retorno.Pagina = pagina;
-                retorno.TotalPorPagina = filtro.TotalPorPagina;
-                retorno.Total = listaContatos.Count();
-                retorno.Lista = Mapper.Map<List<ListaAmigosDto>>(listaContatos
-                        .Skip(calculoPaginacao)
-                        .Take(filtro.TotalPorPagina));
+            retorno.Pagina = pagina;
+            retorno.TotalPorPagina = filtro.TotalPorPagina;
+            retorno.Total = listaContatos.Count();
+            retorno.Lista = Mapper.Map<List<ListaAmigosDto>>(listaContatos
+                    .Skip(calculoPaginacao)
+                    .Take(filtro.TotalPorPagina));
 
-                return retorno;
-            }
-            catch (System.Exception ex)
-            {
-                throw ex;
-            }
+            return retorno;
         }
     }
 }
