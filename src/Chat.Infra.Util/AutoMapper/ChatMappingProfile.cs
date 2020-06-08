@@ -14,7 +14,12 @@ namespace Chat.Infra.Util.AutoMapper
         {
             CreateMap<Contato, ContatoDto>();
             CreateMap<Conversa, ConversaDto>();
-            CreateMap<ListaContato, ListaContatoDto>();
+            CreateMap<ListaContato, ListaAmigosDto>()
+                .ForMember(r => r.ListaContatoId, o => o.MapFrom(c => c.Id))
+                .ForMember(r => r.ContatoPrincipalId, o => o.MapFrom(c => c.ContatoPrincipalId))
+                .ForMember(r => r.NomeAmigo, o => o.MapFrom(c => c.ContatoAmigo.Nome))
+                .ForMember(r => r.EmailAmigo, o => o.MapFrom(c => c.ContatoAmigo.Email))
+                .ForMember(r => r.ContatoAmigoId, o => o.MapFrom(c => c.ContatoAmigoId));
         }
     }
 }

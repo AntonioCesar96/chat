@@ -4,6 +4,7 @@ using Chat.Application.ListaContato;
 using Chat.Application.ListaContato.Interfaces;
 using Chat.Domain.Contatos;
 using Chat.Domain.Contatos.Interfaces;
+using Chat.Domain.ListaContatos;
 using Chat.Domain.ListaContatos.Interfaces;
 using Chat.Infra.Data.Context;
 using Chat.Infra.Data.Repository.Contatos;
@@ -25,12 +26,17 @@ namespace Chat.Infra.IoC
 
             // Application
             services.AddScoped(typeof(IArmazenadorDeContatoApplication), typeof(ArmazenadorDeContatoApplication));
+            services.AddScoped(typeof(IArmazenadorContatoAmigoApplication), typeof(ArmazenadorContatoAmigoApplication));
             services.AddScoped(typeof(IConsultaListaContatoApplication), typeof(ConsultaListaContatoApplication));
 
             // Domain
-            services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));
             services.AddScoped(typeof(IConsultaListaContato), typeof(ConsultaListaContato));
+            services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));
+            services.AddScoped(typeof(IArmazenadorContatoAmigo), typeof(ArmazenadorContatoAmigo));
+
+            // Repository
             services.AddScoped(typeof(IContatoRepositorio), typeof(ContatoRepositorio));
+            services.AddScoped(typeof(IListaContatoRepositorio), typeof(ListaContatoRepositorio));
 
             AutoMapperConfiguration.Initialize();
         }

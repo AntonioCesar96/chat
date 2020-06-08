@@ -8,6 +8,8 @@ namespace Chat.Domain.ListaContatos.Dto
     public class ListaContatoFiltroDto : Filtro
     {
         public int ContatoPrincipalId { get; set; }
+        public string NomeAmigo { get; set; }
+        public string EmailAmigo { get; set; }
 
         public ListaContatoFiltroDto()
         {

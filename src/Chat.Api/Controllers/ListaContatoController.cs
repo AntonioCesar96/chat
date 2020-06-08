@@ -2,6 +2,7 @@
 using Chat.Domain.Common;
 using Chat.Domain.ListaContatos.Dto;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Chat.Api.Controllers
 {
@@ -10,11 +11,14 @@ namespace Chat.Api.Controllers
     public class ListaContatoController : ControllerBase
     {
         private readonly IConsultaListaContatoApplication _consultaContatos;
+        private readonly IArmazenadorContatoAmigoApplication _armazenadorContatoAmigo;
 
         public ListaContatoController(
-            IConsultaListaContatoApplication consultaContatos)
+            IConsultaListaContatoApplication consultaContatos,
+            IArmazenadorContatoAmigoApplication armazenadorContatoAmigo)
         {
             _consultaContatos = consultaContatos;
+            _armazenadorContatoAmigo = armazenadorContatoAmigo;
         }
 
         [HttpGet]
@@ -22,6 +26,12 @@ namespace Chat.Api.Controllers
             [FromQuery] ListaContatoFiltroDto filtro)
         {
             return _consultaContatos.ObterContatosAmigos(filtro);
+        }
+
+        [HttpPost]
+        public async Task<int> Post([FromBody] ContatoAmigoCriacaoDto dto)
+        {
+            return await _armazenadorContatoAmigo.Salvar(dto);
         }
     }
 }

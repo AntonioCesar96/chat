@@ -7,5 +7,6 @@ namespace Chat.Domain.Contatos.Interfaces
     public interface IContatoRepositorio
     {
         Task Salvar(Contato contato);
+        Contato ObterPorEmail(string email);
     }
 }

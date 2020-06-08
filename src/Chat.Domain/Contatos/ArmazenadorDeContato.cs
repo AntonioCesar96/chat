@@ -17,7 +17,6 @@ namespace Chat.Domain.Contatos
         public async Task<int> Salvar(ContatoDto dto)
         {
             var entity = new Contato(dto.Nome, dto.Email);
-
             await _contatoRepositorio.Salvar(entity);
 
             return entity.Id;

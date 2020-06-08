@@ -11,5 +11,13 @@ namespace Chat.Domain.ListaContatos.Entities
         public virtual Contato ContatoAmigo { get; private set; }
 
         public ListaContato() { }
+
+        public ListaContato(
+            int contatoPrincipalId,
+            int contatoAmigoId)
+        {
+            ContatoPrincipalId = contatoPrincipalId;
+            ContatoAmigoId = contatoAmigoId;
+        }
     }
 }
