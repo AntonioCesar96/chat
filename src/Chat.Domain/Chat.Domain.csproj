@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contatos\Interfaces\" />
     <Folder Include="Conversas\Interfaces\" />
-    <Folder Include="ListaContatos\Interfaces\" />
   </ItemGroup>
 
 </Project>

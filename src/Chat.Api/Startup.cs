@@ -47,7 +47,7 @@ namespace Chat.Api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
 
             app.UseMvc();

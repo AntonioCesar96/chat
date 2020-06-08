@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Chat.Domain.Common;
+using Chat.Application.Contatos.Interfaces;
 using Chat.Domain.Contatos.Dto;
-using Chat.Domain.ListaContatos.Dto;
-using Chat.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.Api.Controllers
@@ -11,39 +9,18 @@ namespace Chat.Api.Controllers
     [ApiController]
     public class ContatoController : ControllerBase
     {
-        private readonly IContatoService _contatoService;
+        private readonly IArmazenadorDeContatoApplication _armazenadorDeContato;
 
-        public ContatoController(IContatoService contatoService)
+        public ContatoController(
+            IArmazenadorDeContatoApplication armazenadorDeContato)
         {
-            _contatoService = contatoService;
-        }
-
-        [HttpGet]
-        public ActionResult<ResultadoDaConsulta> ObterListaDeContatos([FromQuery] ListaContatoFiltroDto filtro)
-        {
-            return _contatoService.ObterListaDeContatos(filtro);
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
+            _armazenadorDeContato = armazenadorDeContato;
         }
 
         [HttpPost]
         public async Task<int> Post([FromBody] ContatoDto dto)
         {
-            return await _contatoService.Salvar(dto);
-        }
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return await _armazenadorDeContato.Salvar(dto);
         }
     }
 }
