@@ -23,6 +23,9 @@ namespace Chat.Infra.Data.Mapping
 
             builder.Property(s => s.DataCriacao).IsRequired();
 
+            builder.Ignore(s => s.CascadeMode);
+            builder.Ignore(s => s.ValidationResult);
+
             builder.ToTable(nameof(Conversa));
         }
     }

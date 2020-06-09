@@ -1,6 +1,7 @@
 ﻿using Chat.Application.Contatos.Interfaces;
 using Chat.Domain.Contatos.Dto;
 using Chat.Domain.Contatos.Interfaces;
+using Chat.Infra.Util.AutoMapper;
 using System.Threading.Tasks;
 
 namespace Chat.Application.Contatos
@@ -14,10 +15,10 @@ namespace Chat.Application.Contatos
             _armazenadorDeContato = armazenadorDeContato;
         }
 
-        public async Task<int> Salvar(ContatoDto dto)
+        public async Task<ContatoDto> Salvar(ContatoDto dto)
         {
-            var id = await _armazenadorDeContato.Salvar(dto);
-            return id;
+            var contato = await _armazenadorDeContato.Salvar(dto);
+            return contato.MapTo<ContatoDto>();
         }
     }
 }

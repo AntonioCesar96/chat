@@ -28,33 +28,39 @@ namespace Chat.Infra.Data.Repository.Conversas
             var pagina = filtro.Pagina > 0 ? filtro.Pagina : 1;
             var calculoPaginacao = (pagina - 1) * filtro.TotalPorPagina;
 
-            var conversas = (
-                    from conversa in _dbContext.Set<Conversa>()
-                        .Include(x => x.ContatoCriadorDaConversaId)
-                        .Include(x => x.Contato)
-                        .Include(x => x.Mensagens)
-
-                    where conversa.ContatoCriadorDaConversaId == filtro.ContatoId
-                        || conversa.ContatoId == filtro.ContatoId
-
-                    select new ConversaDto()
-                    {
-                        ConversaId = conversa.Id,
-                        UltimaMensagem = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().MensagemEnviada,
-                        Nome = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
-                        Email = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
-                        FotoUrl = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
-                    }
-                );
+            IQueryable<ConversaDto> conversas = CriarConsultaDeConversas(filtro);
 
             retorno.Pagina = pagina;
             retorno.TotalPorPagina = filtro.TotalPorPagina;
             retorno.Total = conversas.Count();
-            retorno.Lista = Mapper.Map<List<ConversaDto>>(conversas
+            retorno.Lista = conversas
                     .Skip(calculoPaginacao)
-                    .Take(filtro.TotalPorPagina));
+                    .Take(filtro.TotalPorPagina)
+                    .ToList();
 
             return retorno;
+        }
+
+        private IQueryable<ConversaDto> CriarConsultaDeConversas(ConversaFiltroDto filtro)
+        {
+            return (
+                from conversa in _dbContext.Set<Conversa>()
+                    .Include(x => x.ContatoCriadorDaConversaId)
+                    .Include(x => x.Contato)
+                    .Include(x => x.Mensagens)
+
+                where conversa.ContatoCriadorDaConversaId == filtro.ContatoId
+                    || conversa.ContatoId == filtro.ContatoId
+
+                select new ConversaDto()
+                {
+                    ConversaId = conversa.Id,
+                    UltimaMensagem = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().MensagemEnviada,
+                    Nome = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
+                    Email = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
+                    FotoUrl = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
+                }
+            );
         }
     }
 }

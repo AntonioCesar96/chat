@@ -1,6 +1,7 @@
 ﻿using Chat.Application.Conversas.Interfaces;
 using Chat.Domain.Conversas.Dto;
 using Chat.Domain.Conversas.Interfaces;
+using Chat.Infra.Util.AutoMapper;
 using System.Threading.Tasks;
 
 namespace Chat.Application.Conversas
@@ -16,7 +17,8 @@ namespace Chat.Application.Conversas
 
         public async Task<MensagemDto> Salvar(MensagemDto dto)
         {
-            return await _armazenadorMensagem.Salvar(dto);
+            var mensagem = await _armazenadorMensagem.Salvar(dto);
+            return mensagem.MapTo<MensagemDto>();
         }
     }
 }

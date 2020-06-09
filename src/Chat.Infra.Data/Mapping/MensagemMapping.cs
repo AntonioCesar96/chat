@@ -30,6 +30,9 @@ namespace Chat.Infra.Data.Mapping
             builder.Property(s => s.MensagemEnviada).IsRequired();
             builder.Property(s => s.DataEnvio).IsRequired();
 
+            builder.Ignore(s => s.CascadeMode);
+            builder.Ignore(s => s.ValidationResult);
+
             builder.ToTable(nameof(Mensagem));
         }
     }

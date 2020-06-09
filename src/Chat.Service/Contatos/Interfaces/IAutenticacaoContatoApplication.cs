@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Chat.Application.Contatos.Interfaces
 {
-    public interface IArmazenadorDeContatoApplication
+    public interface IAutenticacaoContatoApplication
     {
-        Task<ContatoDto> Salvar(ContatoDto dto);
+        Task<ContatoDto> Autenticar(string email, string senha);
     }
 }

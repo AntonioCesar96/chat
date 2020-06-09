@@ -14,11 +14,11 @@ using Chat.Infra.Util.AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using Chat.Domain.Conversas.Interfaces;
 using Chat.Domain.Conversas;
 using Chat.Application.Conversas.Interfaces;
 using Chat.Application.Conversas;
+using Chat.Domain.Common.Notifications;
 
 namespace Chat.Infra.IoC
 {
@@ -29,6 +29,8 @@ namespace Chat.Infra.IoC
             services.AddDbContext<ChatDbContext>(options => 
                 options.UseSqlServer(configuration["ConnectionStrings:Banco"]));
 
+            services.AddScoped(typeof(IDomainNotificationHandlerAsync<DomainNotification>), typeof(DomainNotificationHandlerAsync));
+
             // Application
             services.AddScoped(typeof(IArmazenadorDeContatoApplication), typeof(ArmazenadorDeContatoApplication));
             services.AddScoped(typeof(IArmazenadorContatoAmigoApplication), typeof(ArmazenadorContatoAmigoApplication));
@@ -36,12 +38,14 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IConsultaListaContatoApplication), typeof(ConsultaListaContatoApplication));
             services.AddScoped(typeof(IConsultaMensagemApplication), typeof(ConsultaMensagemApplication));
             services.AddScoped(typeof(IConsultaConversaApplication), typeof(ConsultaConversaApplication));
+            services.AddScoped(typeof(IAutenticacaoContatoApplication), typeof(AutenticacaoContatoApplication));
 
             // Domain
             services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));
             services.AddScoped(typeof(IArmazenadorContatoAmigo), typeof(ArmazenadorContatoAmigo));
             services.AddScoped(typeof(IArmazenadorDeConversa), typeof(ArmazenadorDeConversa));
             services.AddScoped(typeof(IArmazenadorDeMensagem), typeof(ArmazenadorDeMensagem));
+            services.AddScoped(typeof(IAutenticacaoContato), typeof(AutenticacaoContato));
 
             // Repository
             services.AddScoped(typeof(IConsultaListaContato), typeof(ConsultaListaContato));

@@ -9,10 +9,14 @@ namespace Chat.Infra.Data.Mapping
     {
         public override void Map(EntityTypeBuilder<Contato> builder)
         {
-            builder.Property(s => s.Email).IsRequired().HasMaxLength(50);
             builder.Property(s => s.Nome).IsRequired().HasMaxLength(50);
+            builder.Property(s => s.Email).IsRequired().HasMaxLength(50);
+            builder.Property(s => s.Senha).IsRequired().HasMaxLength(250);
             builder.Property(s => s.Descricao).HasMaxLength(250);
             builder.Property(s => s.FotoUrl).HasMaxLength(250);
+
+            builder.Ignore(s => s.CascadeMode);
+            builder.Ignore(s => s.ValidationResult);
 
             builder.ToTable(nameof(Contato));
         }

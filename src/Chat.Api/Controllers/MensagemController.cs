@@ -1,30 +1,35 @@
 ﻿using Chat.Application.Conversas.Interfaces;
 using Chat.Domain.Common;
+using Chat.Domain.Common.Notifications;
 using Chat.Domain.Conversas.Dto;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Chat.Api.Controllers
 {
-    [Route("api/mensagem")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class MensagemController : ControllerBase
+    public class MensagemController : BaseController
     {
         private readonly IArmazenadorDeMensagemApplication _armazenadorDeMensagem;
         private readonly IConsultaMensagemApplication _consultaMensagens;
 
         public MensagemController(
+            IDomainNotificationHandlerAsync<DomainNotification> notificacaoDeDominio,
             IArmazenadorDeMensagemApplication armazenadorDeMensagem,
-            IConsultaMensagemApplication consultaMensagens)
+            IConsultaMensagemApplication consultaMensagens) : base(notificacaoDeDominio)
         {
             _armazenadorDeMensagem = armazenadorDeMensagem;
             _consultaMensagens = consultaMensagens;
         }
 
         [HttpPost]
-        public async Task<MensagemDto> Post([FromBody] MensagemDto dto)
+        public async Task<ActionResult> Salvar([FromBody] MensagemDto dto)
         {
-            return await _armazenadorDeMensagem.Salvar(dto);
+            var mensagem = await _armazenadorDeMensagem.Salvar(dto);
+
+            if (!OperacaoValida()) return BadRequestResponse();
+            return Ok(mensagem);
         }
 
         [HttpGet]

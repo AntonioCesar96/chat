@@ -26,5 +26,12 @@ namespace Chat.Infra.Data.Repository.Contatos
             return _dbContext.Set<Contato>()
                 .FirstOrDefault(x => x.Email == email.Trim().ToLower());
         }
+
+        public Contato ObterPorEmailSenha(string email, string senha)
+        {
+            return _dbContext.Set<Contato>()
+                .FirstOrDefault(x => x.Email == email.Trim().ToLower() 
+                    && x.Senha == senha.Trim().ToLower());
+        }
     }
 }

@@ -1,11 +1,12 @@
-﻿using Chat.Domain.Contatos.Entities;
+﻿using Chat.Domain.Common;
+using Chat.Domain.Contatos.Entities;
+using FluentValidation;
 using System;
 
 namespace Chat.Domain.Conversas.Entities
 {
-    public class Mensagem
+    public class Mensagem : BaseEntity<int, Mensagem>
     {
-        public int Id { get; private set; }
         public int ConversaId { get; private set; }
         public virtual Conversa Conversa { get; private set; }
         public int ContatoRemetenteId { get; private set; }
@@ -29,6 +30,29 @@ namespace Chat.Domain.Conversas.Entities
             ContatoDestinatarioId = contatoDestinatarioId;
             MensagemEnviada = mensagemEnviada;
             DataEnvio = DateTime.Now;
+        }
+
+        public override bool Validar()
+        {
+            RuleFor(p => p.ConversaId)
+                .GreaterThan(0)
+                .WithMessage(ChatResources.MsgInformeConversa);
+
+            RuleFor(p => p.ContatoRemetenteId)
+                .GreaterThan(0)
+                .WithMessage(ChatResources.MsgInformeContatoRemetente); 
+
+            RuleFor(p => p.ContatoDestinatarioId)
+                .GreaterThan(0)
+                .WithMessage(ChatResources.MsgInformeContatoDestinatario);
+
+            RuleFor(p => p.MensagemEnviada)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage(ChatResources.MsgInformeMensagem);
+
+            ValidationResult = Validate(this);
+            return ValidationResult.IsValid;
         }
     }
 }

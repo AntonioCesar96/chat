@@ -8,6 +8,7 @@ namespace Chat.Infra.Util.AutoMapper
     {
         public static T MapTo<T>(this object value)
         {
+            if (value == null) return (T) value;
             return Mapper.Map<T>(value);
         }
 

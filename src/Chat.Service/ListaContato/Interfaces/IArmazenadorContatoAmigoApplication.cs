@@ -9,6 +9,6 @@ namespace Chat.Application.ListaContato.Interfaces
 {
     public interface IArmazenadorContatoAmigoApplication
     {
-        Task<int> Salvar(ContatoAmigoCriacaoDto dto);
+        Task<ListaContatoDto> Salvar(ContatoAmigoCriacaoDto dto);
     }
 }

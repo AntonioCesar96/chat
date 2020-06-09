@@ -16,8 +16,7 @@ namespace Chat.Application.ListaContato
 
         public ResultadoDaConsulta ObterMensagens(MensagemFiltroDto filtro)
         {
-            var resultado = _consultaMensagens.ObterMensagens(filtro);
-            return resultado;
+            return _consultaMensagens.ObterMensagens(filtro);
         }
     }
 }

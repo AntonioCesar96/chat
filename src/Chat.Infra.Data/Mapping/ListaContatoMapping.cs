@@ -21,6 +21,9 @@ namespace Chat.Infra.Data.Mapping
                 .HasForeignKey(s => s.ContatoAmigoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Ignore(s => s.CascadeMode);
+            builder.Ignore(s => s.ValidationResult);
+
             builder.ToTable(nameof(ListaContato));
         }
     }

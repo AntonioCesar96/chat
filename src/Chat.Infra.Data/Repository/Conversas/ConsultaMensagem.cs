@@ -25,9 +25,7 @@ namespace Chat.Infra.Data.Repository.Conversas
             var pagina = filtro.Pagina > 0 ? filtro.Pagina : 1;
             var calculoPaginacao = (pagina - 1) * filtro.TotalPorPagina;
 
-            var mensagens = _dbContext.Set<Mensagem>()
-                .OrderByDescending(x => x.DataEnvio)
-                .Where(p => p.ConversaId == filtro.ConversaId);
+            IQueryable<Mensagem> mensagens = CriarConsultaDeMensagens(filtro);
 
             retorno.Pagina = pagina;
             retorno.TotalPorPagina = filtro.TotalPorPagina;
@@ -37,6 +35,13 @@ namespace Chat.Infra.Data.Repository.Conversas
                     .Take(filtro.TotalPorPagina));
 
             return retorno;
+        }
+
+        private IQueryable<Mensagem> CriarConsultaDeMensagens(MensagemFiltroDto filtro)
+        {
+            return _dbContext.Set<Mensagem>()
+                .OrderByDescending(x => x.DataEnvio)
+                .Where(p => p.ConversaId == filtro.ConversaId);
         }
     }
 }
