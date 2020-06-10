@@ -1,6 +1,7 @@
 ﻿using Chat.Domain.Common.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading;
 
 namespace Chat.Api.Controllers
 {
@@ -13,13 +14,14 @@ namespace Chat.Api.Controllers
         protected BaseController(IDomainNotificationHandlerAsync<DomainNotification> notificacaoDeDominio)
         {
             NotificacaoDeDominio = notificacaoDeDominio;
+            Thread.Sleep(1000);
         }
 
         protected bool OperacaoValida() => !NotificacaoDeDominio.HasNotifications();
 
-        protected BadRequestObjectResult BadRequestResponse()
+        protected ActionResult ResponderErros()
         {
-            return BadRequest(NotificacaoDeDominio.GetNotifications().Select(n => n.Value));
+            return Ok(new { Erros = NotificacaoDeDominio.GetNotifications().Select(n => n.Value) });
         }
     }
 }

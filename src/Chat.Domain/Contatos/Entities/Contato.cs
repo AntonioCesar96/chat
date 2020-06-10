@@ -41,5 +41,10 @@ namespace Chat.Domain.Contatos.Entities
             ValidationResult = Validate(this);
             return ValidationResult.IsValid;
         }
+
+        public void LimparSenha()
+        {
+            Senha = string.Empty;
+        }
     }
 }

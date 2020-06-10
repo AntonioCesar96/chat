@@ -2,7 +2,7 @@
 {
     public class ChatResources
     {
-        public const string MsgNaoEmailNaoEncontrado = "Esse e-mail não existe cadastrado em nossa base de dados.";
+        public const string MsgNaoEmailNaoEncontrado = "Esse e-mail não foi encontrado cadastrado.";
         public const string MsgSenhaInvalida = "Senha inválida.";
         public const string MsgContatoNaoEncontrado = "Contato não encontrado.";
         public const string MsgInformeNomeDoContato = "Informe o nome.";
@@ -14,5 +14,8 @@
         public const string MsgInformeMensagem = "Informe a mensagem.";
         public const string MsgInformeContatoPrincipal = "Informe o contato principal";
         public const string MsgInformeContatoAmigo = "Informe o contato a ser adicionado.";
+        public const string MsgJaExisteUmaContaComEsseEmail = "Já existe uma conta com esse e-mail.";
+        public const string MsgEmailInvalido = "E-mail inválido.";
+        public const string MsgSenhaEntreSeisDezCaracteres = "A senha deve conter entre 6 e 10 caracteres.";
     }
 }

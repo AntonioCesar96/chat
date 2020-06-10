@@ -27,7 +27,7 @@ namespace Chat.Api.Controllers
         {
             var contato = await _armazenadorDeContato.Salvar(dto);
 
-            if (!OperacaoValida()) return BadRequestResponse();
+            if (!OperacaoValida()) return ResponderErros();
             return Ok(contato);
         }
 
@@ -36,7 +36,7 @@ namespace Chat.Api.Controllers
         {
             var contato = await _autenticacaoContato.Autenticar(email, senha);
 
-            if (!OperacaoValida()) return BadRequestResponse();
+            if (!OperacaoValida()) return ResponderErros();
             return Ok(contato);
         }
     }

@@ -33,5 +33,11 @@ namespace Chat.Domain.Common
             await _notificacaoDeDominio.HandleAsync(
                 new DomainNotification(TipoDeNotificacao.ErroDeServico.ToString(), msg));
         }
+
+        public async Task NotificarErroDeDominio(string msg)
+        {
+            await _notificacaoDeDominio.HandleAsync(
+                new DomainNotification(TipoDeNotificacao.ErroDeDominio.ToString(), msg));
+        }
     }
 }

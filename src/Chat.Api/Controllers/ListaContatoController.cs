@@ -35,7 +35,7 @@ namespace Chat.Api.Controllers
         {
             var listaContato = await _armazenadorContatoAmigo.Salvar(dto);
 
-            if (!OperacaoValida()) return BadRequestResponse();
+            if (!OperacaoValida()) return ResponderErros();
             return Ok(listaContato);
         }
     }

@@ -10,18 +10,20 @@ namespace Chat.Domain.Contatos
     public class ArmazenadorDeContato : DomainService, IArmazenadorDeContato
     {
         private readonly IContatoRepositorio _contatoRepositorio;
+        private readonly IValidadorDeContato _validadorDeContato;
 
         public ArmazenadorDeContato(
             IDomainNotificationHandlerAsync<DomainNotification> notificacaoDeDominio,
-            IContatoRepositorio contatoRepositorio) : base(notificacaoDeDominio)
+            IContatoRepositorio contatoRepositorio,
+            IValidadorDeContato validadorDeContato) : base(notificacaoDeDominio)
         {
             _contatoRepositorio = contatoRepositorio;
+            _validadorDeContato = validadorDeContato;
         }
 
         public async Task<Contato> Salvar(ContatoDto dto)
         {
             Contato contato = CriarContato(dto);
-
             if (!await ValidarSeContatoEstaValido(contato)) return null;
 
             await _contatoRepositorio.Salvar(contato);
@@ -35,10 +37,12 @@ namespace Chat.Domain.Contatos
 
         private async Task<bool> ValidarSeContatoEstaValido(Contato contato)
         {
-            if(contato.Validar()) return true;
+            if(!await _validadorDeContato.ValidarDominio(contato)) return false;
+            if (!await _validadorDeContato.ValidarEmail(contato.Email)) return false;
+            if (!await _validadorDeContato.ValidarSenha(contato.Senha)) return false;
+            if (await _validadorDeContato.ValidarSeEmailJaExiste(contato.Email)) return false;
 
-            await NotificarValidacoesDeDominio(contato.ValidationResult);
-            return false;
+            return true;
         }
     }
 }

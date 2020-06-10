@@ -2,6 +2,7 @@
 using Chat.Domain.Common.Notifications;
 using Chat.Domain.Contatos.Entities;
 using Chat.Domain.Contatos.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Chat.Domain.Contatos
@@ -9,33 +10,31 @@ namespace Chat.Domain.Contatos
     public class AutenticacaoContato : DomainService, IAutenticacaoContato
     {
         private readonly IContatoRepositorio _contatoRepositorio;
+        private readonly IValidadorDeContato _validadorDeContato;
 
         public AutenticacaoContato(
             IDomainNotificationHandlerAsync<DomainNotification> notificacaoDeDominio,
-            IContatoRepositorio contatoRepositorio) : base(notificacaoDeDominio)
+            IContatoRepositorio contatoRepositorio,
+            IValidadorDeContato validadorDeContato) : base(notificacaoDeDominio)
         {
             _contatoRepositorio = contatoRepositorio;
+            _validadorDeContato = validadorDeContato;
         }
 
         public async Task<Contato> Autenticar(string email, string senha)
         {
             var contato = _contatoRepositorio.ObterPorEmail(email);
-            if(!await ValidarSeContatoFoiEncontrado(contato, ChatResources.MsgNaoEmailNaoEncontrado))
+            if(!await _validadorDeContato.ValidarSeContatoDiferenteDeNulo(contato, 
+                ChatResources.MsgNaoEmailNaoEncontrado))
                 return null;
 
             contato = _contatoRepositorio.ObterPorEmailSenha(email, senha);
-            if (!await ValidarSeContatoFoiEncontrado(contato, ChatResources.MsgSenhaInvalida))
+            if (!await _validadorDeContato.ValidarSeContatoDiferenteDeNulo(contato, 
+                ChatResources.MsgSenhaInvalida))
                 return null;
 
+            contato.LimparSenha();
             return contato;
-        }
-
-        private async Task<bool> ValidarSeContatoFoiEncontrado(Contato contato, string msg)
-        {
-            if (contato != null) return true;
-
-            await NotificarErroDeServico(ChatResources.MsgSenhaInvalida);
-            return false;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Chat.Api.Controllers
         {
             var mensagem = await _armazenadorDeMensagem.Salvar(dto);
 
-            if (!OperacaoValida()) return BadRequestResponse();
+            if (!OperacaoValida()) return ResponderErros();
             return Ok(mensagem);
         }
 

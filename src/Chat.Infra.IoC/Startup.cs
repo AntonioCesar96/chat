@@ -46,6 +46,7 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IArmazenadorDeConversa), typeof(ArmazenadorDeConversa));
             services.AddScoped(typeof(IArmazenadorDeMensagem), typeof(ArmazenadorDeMensagem));
             services.AddScoped(typeof(IAutenticacaoContato), typeof(AutenticacaoContato));
+            services.AddScoped(typeof(IValidadorDeContato), typeof(ValidadorDeContato));
 
             // Repository
             services.AddScoped(typeof(IConsultaListaContato), typeof(ConsultaListaContato));
