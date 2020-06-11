@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Chat.Domain.Common;
+﻿using Chat.Domain.Common;
 using Chat.Domain.Conversas.Dto;
 using Chat.Domain.Conversas.Entities;
 using Chat.Domain.Conversas.Interfaces;
 using Chat.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Chat.Infra.Data.Repository.Conversas
 {
@@ -57,8 +53,8 @@ namespace Chat.Infra.Data.Repository.Conversas
                     ConversaId = conversa.Id,
                     UltimaMensagem = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().MensagemEnviada,
                     Nome = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
-                    Email = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
-                    FotoUrl = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
+                    Email = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Email,
+                    FotoUrl = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.FotoUrl,
                 }
             );
         }
