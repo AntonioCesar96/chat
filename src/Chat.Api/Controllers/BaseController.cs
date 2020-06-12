@@ -14,7 +14,6 @@ namespace Chat.Api.Controllers
         protected BaseController(IDomainNotificationHandlerAsync<DomainNotification> notificacaoDeDominio)
         {
             NotificacaoDeDominio = notificacaoDeDominio;
-            // Thread.Sleep(1000);
         }
 
         protected bool OperacaoValida() => !NotificacaoDeDominio.HasNotifications();

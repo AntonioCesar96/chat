@@ -16,7 +16,9 @@ namespace Chat.Infra.Util.AutoMapper
             CreateMap<Contato, ContatoDto>()
                 .ForMember(r => r.ContatoId, o => o.MapFrom(c => c.Id));
 
-            CreateMap<Conversa, ConversaDto>()
+            CreateMap<ContatoStatus, ContatoStatusDto>();
+
+            CreateMap<Conversa, UltimaConversaDto>()
                 .ForMember(r => r.ConversaId, o => o.MapFrom(c => c.Id));
 
             CreateMap<Mensagem, MensagemDto>()

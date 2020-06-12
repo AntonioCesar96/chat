@@ -1,4 +1,5 @@
-﻿using Chat.Infra.Data.Context;
+﻿using Chat.Api.Hubs;
+using Chat.Infra.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,11 +30,13 @@ namespace Chat.Api
                     builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .WithExposedHeaders("Set-Authorization")
+                        .WithOrigins("http://localhost:4263")
                         .AllowCredentials());
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSignalR(o => { o.EnableDetailedErrors = true; });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -49,10 +52,13 @@ namespace Chat.Api
 
             // app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
-
             app.UseMvc();
-
             app.UseStaticFiles();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
 
             Infra.Data.Startup.RunMigration<ChatDbContext>(app);
         }

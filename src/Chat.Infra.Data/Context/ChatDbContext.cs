@@ -36,6 +36,7 @@ namespace Chat.Infra.Data.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.AddConfiguration(new ContatoMapping());
+            modelBuilder.AddConfiguration(new ContatoStatusMapping());
             modelBuilder.AddConfiguration(new ConversaMapping());
             modelBuilder.AddConfiguration(new ListaContatoMapping());
             modelBuilder.AddConfiguration(new MensagemMapping());

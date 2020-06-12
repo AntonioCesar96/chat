@@ -32,7 +32,8 @@ namespace Chat.Infra.Data.Repository.Conversas
             retorno.Total = mensagens.Count();
             retorno.Lista = Mapper.Map<List<MensagemDto>>(mensagens
                     .Skip(calculoPaginacao)
-                    .Take(filtro.TotalPorPagina));
+                    .Take(filtro.TotalPorPagina))
+                    .OrderBy(x => x.DataEnvio);
 
             return retorno;
         }

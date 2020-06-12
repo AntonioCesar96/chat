@@ -33,6 +33,7 @@ namespace Chat.Infra.IoC
 
             // Application
             services.AddScoped(typeof(IArmazenadorDeContatoApplication), typeof(ArmazenadorDeContatoApplication));
+            services.AddScoped(typeof(IArmazenadorDeContatoStatusApplication), typeof(ArmazenadorDeContatoStatusApplication));
             services.AddScoped(typeof(IArmazenadorContatoAmigoApplication), typeof(ArmazenadorContatoAmigoApplication));
             services.AddScoped(typeof(IArmazenadorDeMensagemApplication), typeof(ArmazenadorDeMensagemApplication));
             services.AddScoped(typeof(IConsultaListaContatoApplication), typeof(ConsultaListaContatoApplication));
@@ -42,6 +43,7 @@ namespace Chat.Infra.IoC
 
             // Domain
             services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));
+            services.AddScoped(typeof(IArmazenadorDeContatoStatus), typeof(ArmazenadorDeContatoStatus));
             services.AddScoped(typeof(IArmazenadorContatoAmigo), typeof(ArmazenadorContatoAmigo));
             services.AddScoped(typeof(IArmazenadorDeConversa), typeof(ArmazenadorDeConversa));
             services.AddScoped(typeof(IArmazenadorDeMensagem), typeof(ArmazenadorDeMensagem));
@@ -53,6 +55,7 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IConsultaConversa), typeof(ConsultaConversa));
             services.AddScoped(typeof(IConsultaMensagem), typeof(ConsultaMensagem));
             services.AddScoped(typeof(IContatoRepositorio), typeof(ContatoRepositorio));
+            services.AddScoped(typeof(IContatoStatusRepositorio), typeof(ContatoStatusRepositorio));
             services.AddScoped(typeof(IListaContatoRepositorio), typeof(ListaContatoRepositorio));
             services.AddScoped(typeof(IConversaRepositorio), typeof(ConversaRepositorio));
             services.AddScoped(typeof(IMensagemRepositorio), typeof(MensagemRepositorio));

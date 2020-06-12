@@ -24,7 +24,7 @@ namespace Chat.Infra.Data.Repository.Conversas
             var pagina = filtro.Pagina > 0 ? filtro.Pagina : 1;
             var calculoPaginacao = (pagina - 1) * filtro.TotalPorPagina;
 
-            IQueryable<ConversaDto> conversas = CriarConsultaDeConversas(filtro);
+            IQueryable<UltimaConversaDto> conversas = CriarConsultaDeConversas(filtro);
 
             retorno.Pagina = pagina;
             retorno.TotalPorPagina = filtro.TotalPorPagina;
@@ -37,7 +37,7 @@ namespace Chat.Infra.Data.Repository.Conversas
             return retorno;
         }
 
-        private IQueryable<ConversaDto> CriarConsultaDeConversas(ConversaFiltroDto filtro)
+        private IQueryable<UltimaConversaDto> CriarConsultaDeConversas(ConversaFiltroDto filtro)
         {
             return (
                 from conversa in _dbContext.Set<Conversa>()
@@ -48,13 +48,18 @@ namespace Chat.Infra.Data.Repository.Conversas
                 where conversa.ContatoCriadorDaConversaId == filtro.ContatoId
                     || conversa.ContatoId == filtro.ContatoId
 
-                select new ConversaDto()
+                orderby conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().DataEnvio descending
+
+                select new UltimaConversaDto()
                 {
                     ConversaId = conversa.Id,
                     UltimaMensagem = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().MensagemEnviada,
+                    ContatoRemetenteId = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().ContatoRemetenteId,
+                    DataEnvio = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().DataEnvio,
+                    ContatoAmigoId = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversaId : conversa.ContatoId,
                     Nome = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,
-                    Email = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Email,
-                    FotoUrl = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.FotoUrl,
+                    Email = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Email : conversa.Contato.Email,
+                    FotoUrl = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.FotoUrl : conversa.Contato.FotoUrl,
                 }
             );
         }

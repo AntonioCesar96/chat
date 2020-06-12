@@ -3,6 +3,7 @@ using Chat.Domain.Common;
 using Chat.Domain.Common.Notifications;
 using Chat.Domain.Conversas.Dto;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Chat.Api.Controllers
@@ -35,6 +36,7 @@ namespace Chat.Api.Controllers
         [HttpGet]
         public ActionResult<ResultadoDaConsulta> ObterMensagens([FromQuery] MensagemFiltroDto filtro)
         {
+            Thread.Sleep(2000);
             return _consultaMensagens.ObterMensagens(filtro);
         }
     }
