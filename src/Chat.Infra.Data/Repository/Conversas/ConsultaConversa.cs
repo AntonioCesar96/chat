@@ -55,6 +55,7 @@ namespace Chat.Infra.Data.Repository.Conversas
                     ConversaId = conversa.Id,
                     UltimaMensagem = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().MensagemEnviada,
                     ContatoRemetenteId = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().ContatoRemetenteId,
+                    ContatoDestinatarioId = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().ContatoDestinatarioId,
                     DataEnvio = conversa.Mensagens.OrderByDescending(x => x.DataEnvio).FirstOrDefault().DataEnvio,
                     ContatoAmigoId = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversaId : conversa.ContatoId,
                     Nome = conversa.ContatoId == filtro.ContatoId ? conversa.ContatoCriadorDaConversa.Nome : conversa.Contato.Nome,

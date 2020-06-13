@@ -23,7 +23,7 @@ namespace Chat.Infra.Data.Repository.Conversas
             var retorno = new ResultadoDaConsulta();
 
             var pagina = filtro.Pagina > 0 ? filtro.Pagina : 1;
-            var calculoPaginacao = (pagina - 1) * filtro.TotalPorPagina;
+            var calculoPaginacao = ((pagina - 1) * filtro.TotalPorPagina) + filtro.QtdMensagensPular;
 
             IQueryable<Mensagem> mensagens = CriarConsultaDeMensagens(filtro);
 
