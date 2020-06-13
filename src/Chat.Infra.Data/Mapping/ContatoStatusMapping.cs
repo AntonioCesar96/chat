@@ -10,6 +10,8 @@ namespace Chat.Infra.Data.Mapping
         public override void Map(EntityTypeBuilder<ContatoStatus> builder)
         {
             builder.Property(s => s.ConnectionId).IsRequired();
+            builder.Property(s => s.Online).IsRequired();
+            builder.Property(s => s.Data).IsRequired();
 
             builder.Property(s => s.ContatoId).IsRequired();
             builder.HasOne(s => s.Contato)

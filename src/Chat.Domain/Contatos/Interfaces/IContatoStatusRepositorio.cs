@@ -10,8 +10,11 @@ namespace Chat.Domain.Contatos.Interfaces
     {
         Task Salvar(ContatoStatus contato);
         ContatoStatus ObterPorContato(int contatoId);
+        IQueryable<ContatoStatus> ObterPorContatosIds(List<int> contatosIds);
         List<string> ObterConnectionsIdsPorContatosIds(List<int> contatosIds);
         ContatoStatus ObterPorConnection(string connectionId);
+        Task RemoverPorContato(int contatoId);
         Task RemoverPorConnection(string connectionId);
+        Task Atualizar(ContatoStatus contatoStatus);
     }
 }

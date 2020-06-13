@@ -1,6 +1,7 @@
 ﻿
 using Chat.Domain.Common;
 using FluentValidation;
+using System;
 
 namespace Chat.Domain.Contatos.Entities
 {
@@ -9,6 +10,8 @@ namespace Chat.Domain.Contatos.Entities
         public int ContatoId { get; private set; }
         public virtual Contato Contato { get; private set; }
         public string ConnectionId { get; private set; }
+        public bool Online { get; private set; }
+        public DateTime Data { get; private set; }
 
         public ContatoStatus() { }
 
@@ -16,6 +19,8 @@ namespace Chat.Domain.Contatos.Entities
         {
             ContatoId = contatoId;
             ConnectionId = connectionId;
+            Online = true;
+            Data = DateTime.Now;
         }
 
         public override bool Validar()
@@ -29,6 +34,16 @@ namespace Chat.Domain.Contatos.Entities
 
             ValidationResult = Validate(this);
             return ValidationResult.IsValid;
+        }
+
+        public void AlterarData(DateTime data)
+        {
+            Data = data;
+        }
+
+        public void AlterarOnline(bool online)
+        {
+            Online = online;
         }
     }
 }

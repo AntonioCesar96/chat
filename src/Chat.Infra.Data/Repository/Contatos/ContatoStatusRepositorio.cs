@@ -22,16 +22,27 @@ namespace Chat.Infra.Data.Repository.Contatos
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task Atualizar(ContatoStatus contatoStatus)
+        {
+            _dbContext.Update(contatoStatus);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public ContatoStatus ObterPorContato(int contatoId)
         {
             return _dbContext.Set<ContatoStatus>()
                 .FirstOrDefault(x => x.ContatoId == contatoId);
         }
 
-        public List<string> ObterConnectionsIdsPorContatosIds(List<int> contatosIds)
+        public IQueryable<ContatoStatus> ObterPorContatosIds(List<int> contatosIds)
         {
             return _dbContext.Set<ContatoStatus>()
-                .Where(x => contatosIds.Any(id => id == x.ContatoId))
+                .Where(x => contatosIds.Any(id => id == x.ContatoId));
+        }
+
+        public List<string> ObterConnectionsIdsPorContatosIds(List<int> contatosIds)
+        {
+            return ObterPorContatosIds(contatosIds)
                 .Select(x => x.ConnectionId)
                 .ToList();
         }
@@ -50,6 +61,15 @@ namespace Chat.Infra.Data.Repository.Contatos
             if (contatoStatus == null) return;
 
             _dbContext.Remove(contatoStatus);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoverPorContato(int contatoId)
+        {
+            var contatos = ObterPorContatosIds(new List<int>() { contatoId });
+            if (!contatos.Any()) return;
+
+            _dbContext.RemoveRange(contatos);
             await _dbContext.SaveChangesAsync();
         }
     }

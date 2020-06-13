@@ -40,6 +40,7 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IConsultaMensagemApplication), typeof(ConsultaMensagemApplication));
             services.AddScoped(typeof(IConsultaConversaApplication), typeof(ConsultaConversaApplication));
             services.AddScoped(typeof(IAutenticacaoContatoApplication), typeof(AutenticacaoContatoApplication));
+            services.AddScoped(typeof(IAtualizadorDeContatoStatusApplication), typeof(AtualizadorDeContatoStatusApplication));
 
             // Domain
             services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));
@@ -49,6 +50,7 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IArmazenadorDeMensagem), typeof(ArmazenadorDeMensagem));
             services.AddScoped(typeof(IAutenticacaoContato), typeof(AutenticacaoContato));
             services.AddScoped(typeof(IValidadorDeContato), typeof(ValidadorDeContato));
+            services.AddScoped(typeof(IAtualizadorDeContatoStatus), typeof(AtualizadorDeContatoStatus));
 
             // Repository
             services.AddScoped(typeof(IConsultaListaContato), typeof(ConsultaListaContato));
