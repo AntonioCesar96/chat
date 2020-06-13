@@ -48,11 +48,11 @@ namespace Chat.Api.Hubs
         }
 
 
-        public async Task EnviarContatoDigitando(bool estaDigitando, int contatoAmigoId)
+        public async Task EnviarContatoDigitando(bool estaDigitando, int contatoAmigoId, int contatoQueEstaDigitandoId)
         {
             var connectionsIds = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(new List<int>() { contatoAmigoId });
 
-            await Clients.Clients(connectionsIds).SendAsync("ReceberContatoDigitando", estaDigitando);
+            await Clients.Clients(connectionsIds).SendAsync("ReceberContatoDigitando", estaDigitando, contatoQueEstaDigitandoId);
         }
 
         public async Task SendToAllAsync(string methodName, string message)
