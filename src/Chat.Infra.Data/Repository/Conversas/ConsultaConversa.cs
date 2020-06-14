@@ -23,35 +23,29 @@ namespace Chat.Infra.Data.Repository.Conversas
 
         public ResultadoDaConsulta ObterConversasDoContato(ConversaFiltroDto filtro)
         {
-            var pagina = filtro.Pagina > 0 ? filtro.Pagina : 1;
-            var calculoPaginacao = (pagina - 1) * filtro.TotalPorPagina;
+            var conversasComUltimaMensagem = ObterConversasComUltimaMensagem(filtro);
 
-            IQueryable<UltimaConversaDto> conversas = CriarConsultaDeConversas(filtro);
-
-            var total = conversas.Count();
-            var lista = conversas.Skip(calculoPaginacao).Take(filtro.TotalPorPagina).ToList();
-
-            var mensagensIds = lista.Select(x => x.UltimaMensagemId).ToList();
+            var mensagensIds = conversasComUltimaMensagem.Select(x => x.UltimaMensagemId).ToList();
             var ultimasMensagens = ObterMensagens(mensagensIds);
 
-            var contatosAmigosIds = lista.Select(x => x.ContatoAmigoId).ToList();
+            var contatosAmigosIds = conversasComUltimaMensagem.Select(x => x.ContatoAmigoId).ToList();
             var statusDosContatos = ObterStatusDosContatos(contatosAmigosIds);
 
-            AtualizarLista(lista, ultimasMensagens, statusDosContatos);
+            AtualizarListaConversasComUltimaMensagem(conversasComUltimaMensagem, ultimasMensagens, statusDosContatos);
 
             var retorno = new ResultadoDaConsulta();
-            retorno.Pagina = pagina;
-            retorno.TotalPorPagina = filtro.TotalPorPagina;
-            retorno.Total = total;
-            retorno.Lista = lista;
+            retorno.Total = conversasComUltimaMensagem.Count();
+            retorno.Lista = conversasComUltimaMensagem
+                .OrderByDescending(x => x.DataEnvio)
+                .ToList();
 
             return retorno;
         }
 
-        private static void AtualizarLista(List<UltimaConversaDto> lista, 
+        private static void AtualizarListaConversasComUltimaMensagem(List<UltimaConversaDto> conversasComUltimaMensagem, 
             List<UltimaConversaDto> ultimasMensagens, List<ContatoMensagemDto> statusDosContatos)
         {
-            lista.ForEach(ultimaMensagem =>
+            conversasComUltimaMensagem.ForEach(ultimaMensagem =>
             {
                 var status = statusDosContatos.FirstOrDefault(y => y.ContatoId == ultimaMensagem.ContatoAmigoId);
                 var mensagem = ultimasMensagens.FirstOrDefault(y => y.UltimaMensagemId == ultimaMensagem.UltimaMensagemId);
@@ -68,7 +62,7 @@ namespace Chat.Infra.Data.Repository.Conversas
             });
         }
 
-        private IQueryable<UltimaConversaDto> CriarConsultaDeConversas(ConversaFiltroDto filtro)
+        private List<UltimaConversaDto> ObterConversasComUltimaMensagem(ConversaFiltroDto filtro)
         {
             return (
                 from conversa in _dbContext.Set<Conversa>()
@@ -89,10 +83,10 @@ namespace Chat.Infra.Data.Repository.Conversas
                 {
                     UltimaMensagemId = conversaGroup.Max(x => x.Id),
                     ConversaId = conversaGroup.Key.ConversaId,
-                    ContatoAmigoId = conversaGroup.Key.ContatoId == filtro.ContatoId 
+                    ContatoAmigoId = conversaGroup.Key.ContatoId == filtro.ContatoId
                         ? conversaGroup.Key.ContatoCriadorDaConversaId : conversaGroup.Key.ContatoId
                 }
-            );
+            ).ToList();
         }
 
         private List<ContatoMensagemDto> ObterStatusDosContatos(List<int> contatosAmigosIds)

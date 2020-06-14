@@ -22,11 +22,16 @@ namespace Chat.Domain.Contatos
         {
             var contatoStatus = _contatoStatusRepositorio.ObterPorConnection(connectionId);
 
-            contatoStatus.AlterarOnline(false);
-            contatoStatus.AlterarData(DateTime.Now);
+            AtualizarParaOffline(contatoStatus);
 
             await _contatoStatusRepositorio.Atualizar(contatoStatus);
             return contatoStatus;
+        }
+
+        private void AtualizarParaOffline(ContatoStatus contatoStatus)
+        {
+            contatoStatus.AlterarOnline(false);
+            contatoStatus.AlterarData(DateTime.Now);
         }
     }
 }

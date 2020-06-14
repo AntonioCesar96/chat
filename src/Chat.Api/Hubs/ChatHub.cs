@@ -11,38 +11,45 @@ namespace Chat.Api.Hubs
 {
     public class ChatHub : Hub
     {
-        private readonly IArmazenadorDeContatoStatusApplication _armazenadorDeContatoStatus;
-        private readonly IContatoStatusRepositorio _contatoStatusRepositorio;
+        private readonly IContatoStatusRepositorioApplication _contatoStatusRepositorio;
         private readonly IArmazenadorDeMensagemApplication _armazenadorDeMensagem;
-        private readonly IAtualizadorDeContatoStatusApplication _atualizadorDeContatoStatusApplication;
+        private readonly IAtualizadorDeContatoStatusApplication _atualizadorDeContatoStatus;
+        private readonly IRegistradorDeConexaoApplication _registradorDeConexao;
+        private readonly IConsultaConnectionsDeAmigosApplication _consultaContatoStatusDeAmigos;
 
         public ChatHub(
-            IArmazenadorDeContatoStatusApplication armazenadorDeContatoStatus,
-            IContatoStatusRepositorio contatoStatusRepositorio,
+            IContatoStatusRepositorioApplication contatoStatusRepositorio,
             IArmazenadorDeMensagemApplication armazenadorDeMensagem,
-            IAtualizadorDeContatoStatusApplication atualizadorDeContatoStatusApplication)
+            IAtualizadorDeContatoStatusApplication atualizadorDeContatoStatus,
+            IRegistradorDeConexaoApplication registradorDeConexao,
+            IConsultaConnectionsDeAmigosApplication consultaContatoStatusDeAmigos)
         {
-            _armazenadorDeContatoStatus = armazenadorDeContatoStatus;
             _contatoStatusRepositorio = contatoStatusRepositorio;
             _armazenadorDeMensagem = armazenadorDeMensagem;
-            _atualizadorDeContatoStatusApplication = atualizadorDeContatoStatusApplication;
+            _atualizadorDeContatoStatus = atualizadorDeContatoStatus;
+            _registradorDeConexao = registradorDeConexao;
+            _consultaContatoStatusDeAmigos = consultaContatoStatusDeAmigos;
         }
 
-        public async Task RegistrarConexao(int contatoId, string connectionId)
+        public async Task RegistrarConexao(int contatoId)
         {
-            var ids = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(new List<int>() { contatoId });
-            await Clients.Clients(ids).SendAsync("Deslogar", true); // parar back e rodar denovo validar front connectionId old
+            var ids = await _registradorDeConexao.Registrar(contatoId, Context.ConnectionId);
+            await Clients.Clients(ids)
+                .SendAsync("Deslogar", true);
 
-            await _contatoStatusRepositorio.RemoverPorContato(contatoId);
-            var dto = await _armazenadorDeContatoStatus.Salvar(contatoId, Context.ConnectionId);
-
-            var connectionsIds = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(new List<int>() { contatoId });
-            await Clients.Clients(connectionsIds).SendAsync("ReceberStatusContato", dto);
+            var connectionsContato = _consultaContatoStatusDeAmigos.Consultar(contatoId);
+            await Clients.Clients(connectionsContato)
+                .SendAsync("ReceberStatusContatoOnline", contatoId);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var contatoStatusDto = await _atualizadorDeContatoStatusApplication.AtualizarParaOffline(Context.ConnectionId);
+            var dto = await _atualizadorDeContatoStatus.AtualizarParaOffline(Context.ConnectionId);
+
+            var connectionsContato = _consultaContatoStatusDeAmigos.Consultar(dto.ContatoId);
+            await Clients.Clients(connectionsContato)
+                .SendAsync("ReceberStatusContatoOffline", dto);
+
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -50,22 +57,16 @@ namespace Chat.Api.Hubs
         {
             var mensagemDto = await _armazenadorDeMensagem.Salvar(dto);
 
-            var contatosIds = new List<int>() { dto.ContatoRemetenteId, dto.ContatoDestinatarioId };
-            var connectionsIds = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(contatosIds);
-
-            await Clients.Clients(connectionsIds).SendAsync("ReceberMensagem", mensagemDto);
+            var connectionsIds = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(dto);
+            await Clients.Clients(connectionsIds)
+                .SendAsync("ReceberMensagem", mensagemDto);
         }
 
         public async Task EnviarContatoDigitando(bool estaDigitando, int contatoAmigoId, int contatoQueEstaDigitandoId)
         {
-            var connectionsIds = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(new List<int>() { contatoAmigoId });
-
-            await Clients.Clients(connectionsIds).SendAsync("ReceberContatoDigitando", estaDigitando, contatoQueEstaDigitandoId);
-        }
-
-        public async Task SendToAllAsync(string methodName, string message)
-        {
-            await Clients.All.SendAsync(methodName, message);
+            var connectionsIds = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(contatoAmigoId);
+            await Clients.Clients(connectionsIds)
+                .SendAsync("ReceberContatoDigitando", estaDigitando, contatoQueEstaDigitandoId);
         }
 
         public async Task SendMessageToGroup(string groupName, string methodName, string message)

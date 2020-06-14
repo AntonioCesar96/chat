@@ -33,7 +33,7 @@ namespace Chat.Infra.IoC
 
             // Application
             services.AddScoped(typeof(IArmazenadorDeContatoApplication), typeof(ArmazenadorDeContatoApplication));
-            services.AddScoped(typeof(IArmazenadorDeContatoStatusApplication), typeof(ArmazenadorDeContatoStatusApplication));
+            services.AddScoped(typeof(IConsultaConnectionsDeAmigosApplication), typeof(ConsultaConnectionsDeAmigosApplication));
             services.AddScoped(typeof(IArmazenadorContatoAmigoApplication), typeof(ArmazenadorContatoAmigoApplication));
             services.AddScoped(typeof(IArmazenadorDeMensagemApplication), typeof(ArmazenadorDeMensagemApplication));
             services.AddScoped(typeof(IConsultaListaContatoApplication), typeof(ConsultaListaContatoApplication));
@@ -41,6 +41,8 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IConsultaConversaApplication), typeof(ConsultaConversaApplication));
             services.AddScoped(typeof(IAutenticacaoContatoApplication), typeof(AutenticacaoContatoApplication));
             services.AddScoped(typeof(IAtualizadorDeContatoStatusApplication), typeof(AtualizadorDeContatoStatusApplication));
+            services.AddScoped(typeof(IRegistradorDeConexaoApplication), typeof(RegistradorDeConexaoApplication));
+            services.AddScoped(typeof(IContatoStatusRepositorioApplication), typeof(ContatoStatusRepositorioApplication));
 
             // Domain
             services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));
@@ -51,11 +53,13 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IAutenticacaoContato), typeof(AutenticacaoContato));
             services.AddScoped(typeof(IValidadorDeContato), typeof(ValidadorDeContato));
             services.AddScoped(typeof(IAtualizadorDeContatoStatus), typeof(AtualizadorDeContatoStatus));
+            services.AddScoped(typeof(IRegistradorDeConexao), typeof(RegistradorDeConexao));
 
             // Repository
             services.AddScoped(typeof(IConsultaListaContato), typeof(ConsultaListaContato));
             services.AddScoped(typeof(IConsultaConversa), typeof(ConsultaConversa));
             services.AddScoped(typeof(IConsultaMensagem), typeof(ConsultaMensagem));
+            services.AddScoped(typeof(IConsultaConnectionsDeAmigos), typeof(ConsultaConnectionsDeAmigos));
             services.AddScoped(typeof(IContatoRepositorio), typeof(ContatoRepositorio));
             services.AddScoped(typeof(IContatoStatusRepositorio), typeof(ContatoStatusRepositorio));
             services.AddScoped(typeof(IListaContatoRepositorio), typeof(ListaContatoRepositorio));
