@@ -1,4 +1,5 @@
 ﻿using Chat.Domain.Contatos.Entities;
+using Chat.Domain.Conversas.Enums;
 using System;
 
 namespace Chat.Domain.Conversas.Dto
@@ -11,6 +12,7 @@ namespace Chat.Domain.Conversas.Dto
         public int ContatoDestinatarioId { get; set; }
         public string MensagemEnviada { get; set; }
         public DateTime DataEnvio { get; set; }
+        public StatusMensagem StatusMensagem { get; set; }
 
     }
 }

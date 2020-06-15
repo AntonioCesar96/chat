@@ -23,16 +23,20 @@ namespace Chat.Infra.Data.Repository.Conversas
             var retorno = new ResultadoDaConsulta();
 
             var pagina = filtro.Pagina > 0 ? filtro.Pagina : 1;
-            var calculoPaginacao = ((pagina - 1) * filtro.TotalPorPagina) + filtro.QtdMensagensPular;
+            var calculoPaginacao = ((pagina - 1) * filtro.TotalPorPagina) 
+                + (filtro.PrimeiraBusca ? 0 : filtro.QtdMensagensPular);
+
+            var totalPorPagina = filtro.TotalPorPagina 
+                + (filtro.PrimeiraBusca ? filtro.QtdMensagensPular : 0);
 
             IQueryable<Mensagem> mensagens = CriarConsultaDeMensagens(filtro);
 
             retorno.Pagina = pagina;
-            retorno.TotalPorPagina = filtro.TotalPorPagina;
+            retorno.TotalPorPagina = totalPorPagina;
             retorno.Total = mensagens.Count();
             retorno.Lista = Mapper.Map<List<MensagemDto>>(mensagens
                     .Skip(calculoPaginacao)
-                    .Take(filtro.TotalPorPagina))
+                    .Take(totalPorPagina))
                     .OrderBy(x => x.DataEnvio);
 
             return retorno;

@@ -3,6 +3,7 @@ using Chat.Domain.Contatos.Dto;
 using Chat.Domain.Contatos.Entities;
 using Chat.Domain.Conversas.Dto;
 using Chat.Domain.Conversas.Entities;
+using Chat.Domain.Conversas.Enums;
 using Chat.Domain.Conversas.Interfaces;
 using Chat.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -23,30 +24,33 @@ namespace Chat.Infra.Data.Repository.Conversas
 
         public ResultadoDaConsulta ObterConversasDoContato(ConversaFiltroDto filtro)
         {
-            var conversasComUltimaMensagem = ObterConversasComUltimaMensagem(filtro);
-
-            var mensagensIds = conversasComUltimaMensagem.Select(x => x.UltimaMensagemId).ToList();
-            var ultimasMensagens = ObterMensagens(mensagensIds);
-
-            var contatosAmigosIds = conversasComUltimaMensagem.Select(x => x.ContatoAmigoId).ToList();
-            var statusDosContatos = ObterStatusDosContatos(contatosAmigosIds);
-
-            AtualizarListaConversasComUltimaMensagem(conversasComUltimaMensagem, ultimasMensagens, statusDosContatos);
+            var conversas = Obterconversas(filtro);
+            PreencherConversas(filtro, conversas);
 
             var retorno = new ResultadoDaConsulta();
-            retorno.Total = conversasComUltimaMensagem.Count();
-            retorno.Lista = conversasComUltimaMensagem
+            retorno.Total = conversas.Count();
+            retorno.Lista = conversas
                 .OrderByDescending(x => x.DataEnvio)
                 .ToList();
 
             return retorno;
         }
 
-        private static void AtualizarListaConversasComUltimaMensagem(List<UltimaConversaDto> conversasComUltimaMensagem, 
-            List<UltimaConversaDto> ultimasMensagens, List<ContatoMensagemDto> statusDosContatos)
+        private void PreencherConversas(ConversaFiltroDto filtro,
+            List<UltimaConversaDto> conversas)
         {
-            conversasComUltimaMensagem.ForEach(ultimaMensagem =>
+            var mensagensIds = conversas.Select(x => x.UltimaMensagemId).ToList();
+            var ultimasMensagens = ObterMensagens(mensagensIds);
+
+            var conversasIds = conversas.Select(x => x.ConversaId).ToList();
+            var qtdMensagensNovasPorConversa = ObterQtdMensagensNovasPorConversa(conversasIds);
+
+            var contatosAmigosIds = conversas.Select(x => x.ContatoAmigoId).ToList();
+            var statusDosContatos = ObterStatusDosContatos(contatosAmigosIds);
+
+            conversas.ForEach(ultimaMensagem =>
             {
+                var quantidades = qtdMensagensNovasPorConversa.FirstOrDefault(y => y.ConversaId == ultimaMensagem.ConversaId);
                 var status = statusDosContatos.FirstOrDefault(y => y.ContatoId == ultimaMensagem.ContatoAmigoId);
                 var mensagem = ultimasMensagens.FirstOrDefault(y => y.UltimaMensagemId == ultimaMensagem.UltimaMensagemId);
 
@@ -59,10 +63,14 @@ namespace Chat.Infra.Data.Repository.Conversas
                 ultimaMensagem.ContatoRemetenteId = mensagem?.ContatoRemetenteId;
                 ultimaMensagem.ContatoDestinatarioId = mensagem?.ContatoDestinatarioId;
                 ultimaMensagem.DataEnvio = mensagem?.DataEnvio;
+                ultimaMensagem.StatusUltimaMensagem = mensagem?.StatusUltimaMensagem;
+                ultimaMensagem.QtdMensagensNovas = quantidades?.QtdMensagensNovas ?? 0;
+                ultimaMensagem.MostrarMensagensNovas = 
+                    mensagem?.ContatoDestinatarioId == filtro.ContatoId && ultimaMensagem.QtdMensagensNovas > 0;
             });
         }
 
-        private List<UltimaConversaDto> ObterConversasComUltimaMensagem(ConversaFiltroDto filtro)
+        private List<UltimaConversaDto> Obterconversas(ConversaFiltroDto filtro)
         {
             return (
                 from conversa in _dbContext.Set<Conversa>()
@@ -85,6 +93,24 @@ namespace Chat.Infra.Data.Repository.Conversas
                     ConversaId = conversaGroup.Key.ConversaId,
                     ContatoAmigoId = conversaGroup.Key.ContatoId == filtro.ContatoId
                         ? conversaGroup.Key.ContatoCriadorDaConversaId : conversaGroup.Key.ContatoId
+                }
+            ).ToList();
+        }
+
+        private List<UltimaConversaDto> ObterQtdMensagensNovasPorConversa(List<int> conversasIds)
+        {
+            return (
+                from mensagem in _dbContext.Set<Mensagem>()
+
+                group mensagem by new { mensagem.ConversaId, mensagem.StatusMensagem } into mensagemGroup
+
+                where mensagemGroup.Key.StatusMensagem != StatusMensagem.Lida
+                && conversasIds.Any(id => id == mensagemGroup.Key.ConversaId)
+
+                select new UltimaConversaDto()
+                {
+                    QtdMensagensNovas = mensagemGroup.Count(),
+                    ConversaId = mensagemGroup.Key.ConversaId,
                 }
             ).ToList();
         }
@@ -126,6 +152,7 @@ namespace Chat.Infra.Data.Repository.Conversas
                     ContatoRemetenteId = mensagem.ContatoRemetenteId,
                     ContatoDestinatarioId = mensagem.ContatoDestinatarioId,
                     DataEnvio = mensagem.DataEnvio,
+                    StatusUltimaMensagem = mensagem.StatusMensagem,
                 }
             ).ToList();
         }

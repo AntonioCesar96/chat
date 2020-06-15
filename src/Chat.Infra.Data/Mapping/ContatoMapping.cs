@@ -13,7 +13,7 @@ namespace Chat.Infra.Data.Mapping
             builder.Property(s => s.Email).IsRequired().HasMaxLength(50);
             builder.Property(s => s.Senha).IsRequired().HasMaxLength(250);
             builder.Property(s => s.Descricao).HasMaxLength(250);
-            builder.Property(s => s.FotoUrl).HasMaxLength(250);
+            builder.Property(s => s.FotoUrl);
 
             builder.Ignore(s => s.CascadeMode);
             builder.Ignore(s => s.ValidationResult);

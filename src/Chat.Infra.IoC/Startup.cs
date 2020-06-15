@@ -19,6 +19,7 @@ using Chat.Domain.Conversas;
 using Chat.Application.Conversas.Interfaces;
 using Chat.Application.Conversas;
 using Chat.Domain.Common.Notifications;
+using Chat.Domain.Common.Interfaces;
 
 namespace Chat.Infra.IoC
 {
@@ -30,6 +31,7 @@ namespace Chat.Infra.IoC
                 options.UseSqlServer(configuration["ConnectionStrings:Banco"]));
 
             services.AddScoped(typeof(IDomainNotificationHandlerAsync<DomainNotification>), typeof(DomainNotificationHandlerAsync));
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
             // Application
             services.AddScoped(typeof(IArmazenadorDeContatoApplication), typeof(ArmazenadorDeContatoApplication));
@@ -43,6 +45,7 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IAtualizadorDeContatoStatusApplication), typeof(AtualizadorDeContatoStatusApplication));
             services.AddScoped(typeof(IRegistradorDeConexaoApplication), typeof(RegistradorDeConexaoApplication));
             services.AddScoped(typeof(IContatoStatusRepositorioApplication), typeof(ContatoStatusRepositorioApplication));
+            services.AddScoped(typeof(IMarcadorDeMensagemLidaApplication), typeof(MarcadorDeMensagemLidaApplication));
 
             // Domain
             services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));
@@ -54,6 +57,7 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IValidadorDeContato), typeof(ValidadorDeContato));
             services.AddScoped(typeof(IAtualizadorDeContatoStatus), typeof(AtualizadorDeContatoStatus));
             services.AddScoped(typeof(IRegistradorDeConexao), typeof(RegistradorDeConexao));
+            services.AddScoped(typeof(IMarcadorDeMensagemLida), typeof(MarcadorDeMensagemLida));
 
             // Repository
             services.AddScoped(typeof(IConsultaListaContato), typeof(ConsultaListaContato));

@@ -16,19 +16,22 @@ namespace Chat.Api.Hubs
         private readonly IAtualizadorDeContatoStatusApplication _atualizadorDeContatoStatus;
         private readonly IRegistradorDeConexaoApplication _registradorDeConexao;
         private readonly IConsultaConnectionsDeAmigosApplication _consultaContatoStatusDeAmigos;
+        private readonly IMarcadorDeMensagemLidaApplication _marcadorDeMensagemLida;
 
         public ChatHub(
             IContatoStatusRepositorioApplication contatoStatusRepositorio,
             IArmazenadorDeMensagemApplication armazenadorDeMensagem,
             IAtualizadorDeContatoStatusApplication atualizadorDeContatoStatus,
             IRegistradorDeConexaoApplication registradorDeConexao,
-            IConsultaConnectionsDeAmigosApplication consultaContatoStatusDeAmigos)
+            IConsultaConnectionsDeAmigosApplication consultaContatoStatusDeAmigos,
+            IMarcadorDeMensagemLidaApplication marcadorDeMensagemLida)
         {
             _contatoStatusRepositorio = contatoStatusRepositorio;
             _armazenadorDeMensagem = armazenadorDeMensagem;
             _atualizadorDeContatoStatus = atualizadorDeContatoStatus;
             _registradorDeConexao = registradorDeConexao;
             _consultaContatoStatusDeAmigos = consultaContatoStatusDeAmigos;
+            _marcadorDeMensagemLida = marcadorDeMensagemLida;
         }
 
         public async Task RegistrarConexao(int contatoId)
@@ -67,6 +70,14 @@ namespace Chat.Api.Hubs
             var connectionsIds = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(contatoAmigoId);
             await Clients.Clients(connectionsIds)
                 .SendAsync("ReceberContatoDigitando", estaDigitando, contatoQueEstaDigitandoId);
+        }
+
+        public async Task MarcarMensagemComoLida(int mensagemId, int conversaId, int contatoRemetenteId)
+        {
+            await _marcadorDeMensagemLida.MarcarMensagemComoLida(conversaId, mensagemId);
+
+            var connectionsIds = _contatoStatusRepositorio.ObterConnectionsIdsPorContatosIds(contatoRemetenteId);
+            await Clients.Clients(connectionsIds).SendAsync("ReceberMensagemLida", mensagemId, conversaId);
         }
 
         public async Task SendMessageToGroup(string groupName, string methodName, string message)

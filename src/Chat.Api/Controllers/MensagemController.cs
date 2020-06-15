@@ -36,7 +36,7 @@ namespace Chat.Api.Controllers
         [HttpGet]
         public ActionResult<ResultadoDaConsulta> ObterMensagens([FromQuery] MensagemFiltroDto filtro)
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             return _consultaMensagens.ObterMensagens(filtro);
         }
     }

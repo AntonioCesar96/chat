@@ -1,5 +1,6 @@
 ﻿using Chat.Domain.Common;
 using Chat.Domain.Contatos.Entities;
+using Chat.Domain.Conversas.Enums;
 using FluentValidation;
 using System;
 
@@ -15,6 +16,7 @@ namespace Chat.Domain.Conversas.Entities
         public virtual Contato ContatoDestinatario { get; private set; }
         public string MensagemEnviada { get; private set; }
         public DateTime DataEnvio { get; private set; }
+        public StatusMensagem StatusMensagem { get; private set; }
 
         public Mensagem() { }
 
@@ -30,6 +32,7 @@ namespace Chat.Domain.Conversas.Entities
             ContatoDestinatarioId = contatoDestinatarioId;
             MensagemEnviada = mensagemEnviada;
             DataEnvio = DateTime.Now;
+            StatusMensagem = StatusMensagem.Entregue;
         }
 
         public override bool Validar()
@@ -53,6 +56,11 @@ namespace Chat.Domain.Conversas.Entities
 
             ValidationResult = Validate(this);
             return ValidationResult.IsValid;
+        }
+
+        public void AlterarStatusMensagem(StatusMensagem status)
+        {
+            StatusMensagem = status;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chat.Domain.Conversas.Enums;
+using System;
 
 namespace Chat.Domain.Conversas.Dto
 {
@@ -7,6 +8,7 @@ namespace Chat.Domain.Conversas.Dto
         public int ConversaId { get; set; }
         public string UltimaMensagem { get; set; }
         public int UltimaMensagemId { get; set; }
+        public StatusMensagem? StatusUltimaMensagem { get; set; }
         public int? ContatoRemetenteId { get; set; }
         public int? ContatoDestinatarioId { get; set; }
         public int ContatoAmigoId { get; set; }
@@ -16,5 +18,7 @@ namespace Chat.Domain.Conversas.Dto
         public string FotoUrl { get; set; }
         public bool? Online { get; set; }
         public DateTime? DataRegistroOnline { get; set; }
+        public bool? MostrarMensagensNovas { get; set; }
+        public int? QtdMensagensNovas { get; set; }
     }
 }

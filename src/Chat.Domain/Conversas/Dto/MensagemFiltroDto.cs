@@ -6,6 +6,7 @@ namespace Chat.Domain.Conversas.Dto
     {
         public int ConversaId { get; set; }
         public int QtdMensagensPular { get; set; }
+        public bool PrimeiraBusca { get; set; }
 
         public MensagemFiltroDto()
         {
