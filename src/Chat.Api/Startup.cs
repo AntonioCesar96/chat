@@ -25,6 +25,7 @@ namespace Chat.Api
             Infra.IoC.Startup.ConfigureServices(services, Configuration);
             services.AddScoped<MensagemHub>();
             services.AddScoped<ConexaoHub>();
+            services.AddScoped<ConversasHub>();
 
             services.AddCors(options =>
             {

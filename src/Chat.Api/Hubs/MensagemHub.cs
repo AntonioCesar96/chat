@@ -2,6 +2,7 @@
 using Chat.Application.Mensagens.Interfaces;
 using Chat.Domain.Mensagens.Dtos;
 using Microsoft.AspNetCore.SignalR;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Chat.Api.Hubs
@@ -12,17 +13,20 @@ namespace Chat.Api.Hubs
         private readonly IContatoStatusRepositorioApplication _contatoStatusRepositorio;
         private readonly IArmazenadorDeMensagemApplication _armazenadorDeMensagem;
         private readonly IMarcadorDeMensagemLidaApplication _marcadorDeMensagemLida;
+        private readonly IConsultaMensagemApplication _consultaMensagens;
 
         public MensagemHub(
             IHubContext<ChatHub, IChatCliente> hubContext,
             IContatoStatusRepositorioApplication contatoStatusRepositorio,
             IArmazenadorDeMensagemApplication armazenadorDeMensagem,
-            IMarcadorDeMensagemLidaApplication marcadorDeMensagemLida)
+            IMarcadorDeMensagemLidaApplication marcadorDeMensagemLida,
+            IConsultaMensagemApplication consultaMensagens)
         {
             _hubContext = hubContext;
             _contatoStatusRepositorio = contatoStatusRepositorio;
             _armazenadorDeMensagem = armazenadorDeMensagem;
             _marcadorDeMensagemLida = marcadorDeMensagemLida;
+            _consultaMensagens = consultaMensagens;
         }
 
         public async Task EnviarMensagem(MensagemDto dto)
@@ -56,6 +60,15 @@ namespace Chat.Api.Hubs
 
             await _hubContext.Clients.Clients(connectionsIds)
                 .ReceberMensagemLida(mensagemId, conversaId);
+        }
+
+        public async Task ObterMensagens(MensagemFiltroDto filtro, string connectionId)
+        {
+            Thread.Sleep(1000);
+            var resultado = _consultaMensagens.ObterMensagens(filtro);
+
+            await _hubContext.Clients.Client(connectionId)
+                .ReceberMensagens(resultado);
         }
     }
 }
