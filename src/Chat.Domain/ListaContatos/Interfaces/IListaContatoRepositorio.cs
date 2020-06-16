@@ -1,7 +1,4 @@
-﻿using Chat.Domain.ListaContatos.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Chat.Domain.ListaContatos.Entidades;
 using System.Threading.Tasks;
 
 namespace Chat.Domain.ListaContatos.Interfaces

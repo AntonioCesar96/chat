@@ -1,6 +1,6 @@
 ﻿using Chat.Domain.Common;
 using Chat.Domain.Common.Notifications;
-using Chat.Domain.Conversas.Entities;
+using Chat.Domain.Conversas.Entidades;
 using Chat.Domain.Conversas.Interfaces;
 using System.Threading.Tasks;
 

@@ -1,6 +1,6 @@
 ﻿using Chat.Application.Conversas.Interfaces;
 using Chat.Domain.Common;
-using Chat.Domain.Conversas.Dto;
+using Chat.Domain.Conversas.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.Api.Controllers

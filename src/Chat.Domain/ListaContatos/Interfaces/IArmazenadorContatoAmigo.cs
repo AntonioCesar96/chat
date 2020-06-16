@@ -1,5 +1,5 @@
-﻿using Chat.Domain.ListaContatos.Dto;
-using Chat.Domain.ListaContatos.Entities;
+﻿using Chat.Domain.ListaContatos.Dtos;
+using Chat.Domain.ListaContatos.Entidades;
 using System.Threading.Tasks;
 
 namespace Chat.Domain.ListaContatos.Interfaces

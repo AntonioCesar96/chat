@@ -1,9 +1,9 @@
 ﻿using Chat.Application.Conversas.Interfaces;
 using Chat.Domain.Common;
-using Chat.Domain.Conversas.Dto;
+using Chat.Domain.Conversas.Dtos;
 using Chat.Domain.Conversas.Interfaces;
 
-namespace Chat.Application.ListaContato
+namespace Chat.Application.Conversas
 {
     public class ConsultaConversaApplication : IConsultaConversaApplication
     {

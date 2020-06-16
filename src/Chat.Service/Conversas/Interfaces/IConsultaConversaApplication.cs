@@ -1,6 +1,5 @@
-﻿
-using Chat.Domain.Common;
-using Chat.Domain.Conversas.Dto;
+﻿using Chat.Domain.Common;
+using Chat.Domain.Conversas.Dtos;
 
 namespace Chat.Application.Conversas.Interfaces
 {

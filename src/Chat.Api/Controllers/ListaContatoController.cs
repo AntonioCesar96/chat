@@ -1,7 +1,7 @@
 ﻿using Chat.Application.ListaContato.Interfaces;
 using Chat.Domain.Common;
 using Chat.Domain.Common.Notifications;
-using Chat.Domain.ListaContatos.Dto;
+using Chat.Domain.ListaContatos.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

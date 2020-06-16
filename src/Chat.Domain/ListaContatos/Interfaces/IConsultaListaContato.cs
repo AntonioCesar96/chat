@@ -1,5 +1,5 @@
 ﻿using Chat.Domain.Common;
-using Chat.Domain.ListaContatos.Dto;
+using Chat.Domain.ListaContatos.Dtos;
 
 namespace Chat.Domain.ListaContatos.Interfaces
 {

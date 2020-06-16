@@ -1,6 +1,6 @@
 ﻿using Chat.Application.Contatos.Interfaces;
 using Chat.Domain.Common.Notifications;
-using Chat.Domain.Contatos.Dto;
+using Chat.Domain.Contatos.Dtos;
 using Chat.Domain.Contatos.Interfaces;
 using Chat.Infra.Util.AutoMapper;
 using System.Threading.Tasks;

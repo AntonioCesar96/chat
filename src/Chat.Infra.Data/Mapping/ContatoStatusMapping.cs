@@ -1,4 +1,4 @@
-﻿using Chat.Domain.Contatos.Entities;
+﻿using Chat.Domain.ContatosStatus.Entidades;
 using Chat.Infra.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

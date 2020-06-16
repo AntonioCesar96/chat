@@ -1,4 +1,4 @@
-﻿using Chat.Domain.Contatos.Dto;
+﻿using Chat.Domain.Contatos.Dtos;
 using System.Threading.Tasks;
 
 namespace Chat.Application.Contatos.Interfaces

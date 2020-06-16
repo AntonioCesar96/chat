@@ -7,9 +7,8 @@ using Chat.Domain.Contatos.Interfaces;
 using Chat.Domain.ListaContatos;
 using Chat.Domain.ListaContatos.Interfaces;
 using Chat.Infra.Data.Context;
-using Chat.Infra.Data.Repository.Contatos;
-using Chat.Infra.Data.Repository.ListaContatos;
-using Chat.Infra.Data.Repository.Conversas;
+using Chat.Infra.Data.Repositorios;
+using Chat.Infra.Data.Consultas;
 using Chat.Infra.Util.AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +19,14 @@ using Chat.Application.Conversas.Interfaces;
 using Chat.Application.Conversas;
 using Chat.Domain.Common.Notifications;
 using Chat.Domain.Common.Interfaces;
+using Chat.Domain.ContatosStatus.Interfaces;
+using Chat.Domain.Mensagens.Interfaces;
+using Chat.Domain.ContatosStatus;
+using Chat.Domain.Mensagens;
+using Chat.Application.ContatosStatus.Interfaces;
+using Chat.Application.Mensagens.Interfaces;
+using Chat.Application.Mensagens;
+using Chat.Application.ContatosStatus;
 
 namespace Chat.Infra.IoC
 {

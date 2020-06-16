@@ -1,6 +1,7 @@
 ﻿using Chat.Domain.Common;
 using Chat.Domain.Common.Notifications;
 using Chat.Domain.Contatos.Interfaces;
+using Chat.Domain.ContatosStatus.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

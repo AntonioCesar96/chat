@@ -1,10 +1,9 @@
 ﻿using Chat.Application.Contatos.Interfaces;
-using Chat.Application.Conversas.Interfaces;
-using Chat.Domain.Contatos.Interfaces;
-using Chat.Domain.Conversas.Dto;
+using Chat.Application.ContatosStatus.Interfaces;
+using Chat.Application.Mensagens.Interfaces;
+using Chat.Domain.Mensagens.Dtos;
 using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chat.Api.Hubs

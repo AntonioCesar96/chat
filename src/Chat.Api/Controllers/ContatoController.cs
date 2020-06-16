@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Chat.Application.Contatos.Interfaces;
 using Chat.Domain.Common.Notifications;
-using Chat.Domain.Contatos.Dto;
+using Chat.Domain.Contatos.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.Api.Controllers

@@ -1,7 +1,7 @@
-﻿using Chat.Application.Conversas.Interfaces;
+﻿using Chat.Application.Mensagens.Interfaces;
 using Chat.Domain.Common;
 using Chat.Domain.Common.Notifications;
-using Chat.Domain.Conversas.Dto;
+using Chat.Domain.Mensagens.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;

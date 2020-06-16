@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Chat.Application.ListaContato.Interfaces;
-using Chat.Domain.ListaContatos.Dto;
+using Chat.Domain.ListaContatos.Dtos;
 using Chat.Domain.ListaContatos.Interfaces;
 using Chat.Infra.Util.AutoMapper;
 

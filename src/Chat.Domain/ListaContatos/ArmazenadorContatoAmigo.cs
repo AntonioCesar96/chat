@@ -1,9 +1,9 @@
 ﻿using Chat.Domain.Common;
 using Chat.Domain.Common.Notifications;
-using Chat.Domain.Contatos.Entities;
+using Chat.Domain.Contatos.Entidades;
 using Chat.Domain.Contatos.Interfaces;
-using Chat.Domain.ListaContatos.Dto;
-using Chat.Domain.ListaContatos.Entities;
+using Chat.Domain.ListaContatos.Dtos;
+using Chat.Domain.ListaContatos.Entidades;
 using Chat.Domain.ListaContatos.Interfaces;
 using System.Threading.Tasks;
 
@@ -35,7 +35,7 @@ namespace Chat.Domain.ListaContatos
             return listaContato;
         }
 
-        private ListaContato CriarListaContato(ContatoAmigoCriacaoDto dto, Contatos.Entities.Contato contato)
+        private ListaContato CriarListaContato(ContatoAmigoCriacaoDto dto, Contato contato)
         {
             return new ListaContato(dto.ContatoPrincipalId, contato.Id);
         }

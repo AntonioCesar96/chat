@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
-using Chat.Domain.Contatos.Dto;
-using Chat.Domain.Contatos.Entities;
-using Chat.Domain.Conversas.Dto;
-using Chat.Domain.Conversas.Entities;
-using Chat.Domain.ListaContatos.Dto;
-using Chat.Domain.ListaContatos.Entities;
-using System.Linq;
+using Chat.Domain.Contatos.Dtos;
+using Chat.Domain.Contatos.Entidades;
+using Chat.Domain.ContatosStatus.Dtos;
+using Chat.Domain.ContatosStatus.Entidades;
+using Chat.Domain.Conversas.Dtos;
+using Chat.Domain.Conversas.Entidades;
+using Chat.Domain.ListaContatos.Dtos;
+using Chat.Domain.ListaContatos.Entidades;
+using Chat.Domain.Mensagens.Dtos;
+using Chat.Domain.Mensagens.Entidades;
 
 namespace Chat.Infra.Util.AutoMapper
 {
