@@ -12,10 +12,12 @@ namespace Chat.Infra.Data.Consultas
     public class ConsultaMensagem : IConsultaMensagem
     {
         private readonly ChatDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public ConsultaMensagem(ChatDbContext dbContext)
+        public ConsultaMensagem(ChatDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public ResultadoDaConsulta ObterMensagens(MensagemFiltroDto filtro)
@@ -34,7 +36,7 @@ namespace Chat.Infra.Data.Consultas
             retorno.Pagina = pagina;
             retorno.TotalPorPagina = totalPorPagina;
             retorno.Total = mensagens.Count();
-            retorno.Lista = Mapper.Map<List<MensagemDto>>(mensagens
+            retorno.Lista = _mapper.Map<List<MensagemDto>>(mensagens
                     .Skip(calculoPaginacao)
                     .Take(totalPorPagina))
                     .OrderBy(x => x.DataEnvio);

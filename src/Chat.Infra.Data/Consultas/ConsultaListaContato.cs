@@ -13,10 +13,12 @@ namespace Chat.Infra.Data.Consultas
     public class ConsultaListaContato : IConsultaListaContato
     {
         private readonly ChatDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public ConsultaListaContato(ChatDbContext dbContext)
+        public ConsultaListaContato(ChatDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public ResultadoDaConsulta ObterContatosAmigos(ListaContatoFiltroDto filtro)
@@ -31,7 +33,7 @@ namespace Chat.Infra.Data.Consultas
             retorno.Pagina = pagina;
             retorno.TotalPorPagina = filtro.TotalPorPagina;
             retorno.Total = listaContatos.Count();
-            retorno.Lista = Mapper.Map<List<ListaAmigosDto>>(listaContatos
+            retorno.Lista = _mapper.Map<List<ListaAmigosDto>>(listaContatos
                     .Skip(calculoPaginacao)
                     .Take(filtro.TotalPorPagina));
 

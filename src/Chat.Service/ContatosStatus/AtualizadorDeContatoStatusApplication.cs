@@ -1,7 +1,7 @@
-﻿using Chat.Application.ContatosStatus.Interfaces;
+﻿using AutoMapper;
+using Chat.Application.ContatosStatus.Interfaces;
 using Chat.Domain.ContatosStatus.Dtos;
 using Chat.Domain.ContatosStatus.Interfaces;
-using Chat.Infra.Util.AutoMapper;
 using System.Threading.Tasks;
 
 namespace Chat.Application.ContatosStatus
@@ -9,17 +9,20 @@ namespace Chat.Application.ContatosStatus
     public class AtualizadorDeContatoStatusApplication : IAtualizadorDeContatoStatusApplication
     {
         private readonly IAtualizadorDeContatoStatus _atualizadorDeContatoStatus;
+        private readonly IMapper _mapper;
 
         public AtualizadorDeContatoStatusApplication(
-            IAtualizadorDeContatoStatus atualizadorDeContatoStatus)
+            IAtualizadorDeContatoStatus atualizadorDeContatoStatus,
+            IMapper mapper)
         {
             _atualizadorDeContatoStatus = atualizadorDeContatoStatus;
+            _mapper = mapper;
         }
 
         public async Task<ContatoStatusDto> AtualizarParaOffline(string connectionId)
         {
             var contatoStatus = await _atualizadorDeContatoStatus.AtualizarParaOffline(connectionId);
-            return contatoStatus.MapTo<ContatoStatusDto>();
+            return _mapper.Map<ContatoStatusDto>(contatoStatus);
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Chat.Application.Contatos.Interfaces;
+﻿using AutoMapper;
+using Chat.Application.Contatos.Interfaces;
 using Chat.Domain.Contatos.Dtos;
 using Chat.Domain.Contatos.Interfaces;
-using Chat.Infra.Util.AutoMapper;
 using System.Threading.Tasks;
 
 namespace Chat.Application.Contatos
@@ -9,16 +9,20 @@ namespace Chat.Application.Contatos
     public class ArmazenadorDeContatoApplication : IArmazenadorDeContatoApplication
     {
         private readonly IArmazenadorDeContato _armazenadorDeContato;
+        private readonly IMapper _mapper;
 
-        public ArmazenadorDeContatoApplication(IArmazenadorDeContato armazenadorDeContato)
+        public ArmazenadorDeContatoApplication(
+            IArmazenadorDeContato armazenadorDeContato,
+            IMapper mapper)
         {
             _armazenadorDeContato = armazenadorDeContato;
+            _mapper = mapper;
         }
 
         public async Task<ContatoDto> Salvar(ContatoDto dto)
         {
             var contato = await _armazenadorDeContato.Salvar(dto);
-            return contato.MapTo<ContatoDto>();
+            return _mapper.Map<ContatoDto>(contato);
         }
     }
 }

@@ -9,7 +9,6 @@ using Chat.Domain.ListaContatos.Interfaces;
 using Chat.Infra.Data.Context;
 using Chat.Infra.Data.Repositorios;
 using Chat.Infra.Data.Consultas;
-using Chat.Infra.Util.AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +26,8 @@ using Chat.Application.ContatosStatus.Interfaces;
 using Chat.Application.Mensagens.Interfaces;
 using Chat.Application.Mensagens;
 using Chat.Application.ContatosStatus;
+using AutoMapper;
+using Chat.Infra.IoC.AutoMapper;
 
 namespace Chat.Infra.IoC
 {
@@ -36,7 +37,8 @@ namespace Chat.Infra.IoC
         {
             services.AddDbContext<ChatDbContext>(options => 
                 options.UseSqlServer(configuration["ConnectionStrings:Banco"]));
-
+            
+            services.AddScoped<ChatDbContext, ChatDbContext>();
             services.AddScoped(typeof(IDomainNotificationHandlerAsync<DomainNotification>), typeof(DomainNotificationHandlerAsync));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
@@ -77,7 +79,8 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IConversaRepositorio), typeof(ConversaRepositorio));
             services.AddScoped(typeof(IMensagemRepositorio), typeof(MensagemRepositorio));
 
-            AutoMapperConfiguration.Initialize();
+
+            services.AddAutoMapper();
         }
     }
 }
