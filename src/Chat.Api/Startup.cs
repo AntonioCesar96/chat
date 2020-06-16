@@ -23,6 +23,8 @@ namespace Chat.Api
             services.AddSingleton(provider => Configuration);
 
             Infra.IoC.Startup.ConfigureServices(services, Configuration);
+            services.AddScoped<MensagemHub>();
+            services.AddScoped<ConexaoHub>();
 
             services.AddCors(options =>
             {
