@@ -45,7 +45,8 @@ namespace Chat.Infra.Data.Consultas
             return _dbContext.Set<ListaContato>()
                 .Include(x => x.ContatoAmigo)
                 .Where(p =>
-                    p.ContatoPrincipalId == filtro.ContatoPrincipalId
+                    (!filtro.ContatosIdsParaIgnorar.Any() || !filtro.ContatosIdsParaIgnorar.Any(id => id == p.ContatoAmigoId))
+                    && p.ContatoPrincipalId == filtro.ContatoPrincipalId
                     && (string.IsNullOrEmpty(filtro.NomeAmigo) || p.ContatoAmigo.Nome.Contains(filtro.NomeAmigo.Trim().ToLower()))
                     && (string.IsNullOrEmpty(filtro.EmailAmigo) || p.ContatoAmigo.Email.Contains(filtro.EmailAmigo.Trim().ToLower()))
                 );

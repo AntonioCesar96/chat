@@ -1,4 +1,5 @@
 ﻿using Chat.Domain.Conversas.Dtos;
+using Chat.Domain.ListaContatos.Dtos;
 using Chat.Domain.Mensagens.Dtos;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -11,15 +12,18 @@ namespace Chat.Api.Hubs
         private readonly MensagemHub _mensagemHub;
         private readonly ConexaoHub _conexaoHub;
         private readonly ConversasHub _conversasHub;
+        private readonly ContatoHub _contatoHub;
 
         public ChatHub(
             ConexaoHub conexaoHub,
             MensagemHub mensagemHub,
-            ConversasHub conversasHub)
+            ConversasHub conversasHub,
+            ContatoHub contatoHub)
         {
             _conexaoHub = conexaoHub;
             _mensagemHub = mensagemHub;
             _conversasHub = conversasHub;
+            _contatoHub = contatoHub;
         }
 
         public async Task RegistrarConexao(int contatoId)
@@ -54,9 +58,19 @@ namespace Chat.Api.Hubs
             await _conversasHub.ObterConversasDoContato(filtro, Context.ConnectionId);
         }
 
+        public async Task ObterConversasDoContatoPesquisa(ConversaFiltroDto filtro)
+        {
+            await _conversasHub.ObterConversasDoContatoPesquisa(filtro, Context.ConnectionId);
+        }
+
         public async Task ObterMensagens(MensagemFiltroDto filtro)
         {
             await _mensagemHub.ObterMensagens(filtro, Context.ConnectionId);
+        }
+
+        public async Task ObterContatosAmigosPesquisa(ListaContatoFiltroDto filtro)
+        {
+            await _contatoHub.ObterContatosAmigosPesquisa(filtro, Context.ConnectionId);
         }
     }
 }

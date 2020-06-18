@@ -22,6 +22,9 @@ namespace Chat.Application.Mensagens
         public async Task<MensagemDto> Salvar(MensagemDto dto)
         {
             var mensagem = await _armazenadorMensagem.Salvar(dto);
+
+            if (dto.ConversaId == 0)
+                return _mapper.Map<MensagemContatosDto>(mensagem);
             return _mapper.Map<MensagemDto>(mensagem);
         }
     }

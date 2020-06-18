@@ -10,6 +10,7 @@ namespace Chat.Domain.ListaContatos.Dtos
         public int ContatoPrincipalId { get; set; }
         public string NomeAmigo { get; set; }
         public string EmailAmigo { get; set; }
+        public List<int> ContatosIdsParaIgnorar { get; set; }
 
         public ListaContatoFiltroDto()
         {

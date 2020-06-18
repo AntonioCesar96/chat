@@ -26,6 +26,7 @@ namespace Chat.Api
             services.AddScoped<MensagemHub>();
             services.AddScoped<ConexaoHub>();
             services.AddScoped<ConversasHub>();
+            services.AddScoped<ContatoHub>();
 
             services.AddCors(options =>
             {

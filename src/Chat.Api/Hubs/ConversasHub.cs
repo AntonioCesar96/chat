@@ -18,12 +18,22 @@ namespace Chat.Api.Hubs
             _consultaConversas = consultaConversas;
         }
 
-        public async Task ObterConversasDoContato(ConversaFiltroDto filtro, string connectionId)
+        public async Task ObterConversasDoContato(ConversaFiltroDto filtro, 
+            string connectionId)
         {
             var resultado = _consultaConversas.ObterConversasDoContato(filtro);
 
             await _hubContext.Clients.Client(connectionId)
                 .ReceberConversasDoContato(resultado);
+        }
+
+        public async Task ObterConversasDoContatoPesquisa(ConversaFiltroDto filtro,
+            string connectionId)
+        {
+            var resultado = _consultaConversas.ObterConversasDoContato(filtro);
+
+            await _hubContext.Clients.Client(connectionId)
+                .ReceberConversasDoContatoPesquisa(resultado);
         }
     }
 }

@@ -11,9 +11,13 @@ namespace Chat.Api.Hubs
         Task ReceberStatusContatoOnline(int contatoId);
         Task ReceberStatusContatoOffline(ContatoStatusDto dto);
         Task ReceberMensagem(MensagemDto dto);
+        Task ReceberPrimeiraMensagem(MensagemDto dto);
         Task ReceberContatoDigitando(bool estaDigitando, int contatoQueEstaDigitandoId);
         Task ReceberMensagemLida(int mensagemId, int conversaId);
         Task ReceberConversasDoContato(ResultadoDaConsulta resultado);
+        Task ReceberConversasDoContatoPesquisa(ResultadoDaConsulta resultado);
         Task ReceberMensagens(ResultadoDaConsulta resultado);
+        Task ReceberMensagensPesquisa(ResultadoDaConsulta resultado);
+        Task ReceberContatosAmigosPesquisa(ResultadoDaConsulta resultado);
     }
 }

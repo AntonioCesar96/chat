@@ -25,8 +25,11 @@ namespace Chat.Infra.Data.Consultas
 
         public ResultadoDaConsulta ObterConversasDoContato(ConversaFiltroDto filtro)
         {
-            var conversas = Obterconversas(filtro);
+            var conversas = ObterConversas(filtro);
+
             PreencherConversas(filtro, conversas);
+
+            conversas = FiltrarConversas(filtro, conversas);
 
             var retorno = new ResultadoDaConsulta();
             retorno.Total = conversas.Count();
@@ -35,6 +38,15 @@ namespace Chat.Infra.Data.Consultas
                 .ToList();
 
             return retorno;
+        }
+
+        private static List<UltimaConversaDto> FiltrarConversas(ConversaFiltroDto filtro, List<UltimaConversaDto> conversas)
+        {
+            conversas = conversas.Where(x => (
+                    string.IsNullOrEmpty(filtro.NomeContato) ||
+                    x.Nome.ToLower().Contains(filtro.NomeContato.ToLower()))
+                ).ToList();
+            return conversas;
         }
 
         private void PreencherConversas(ConversaFiltroDto filtro,
@@ -71,7 +83,7 @@ namespace Chat.Infra.Data.Consultas
             });
         }
 
-        private List<UltimaConversaDto> Obterconversas(ConversaFiltroDto filtro)
+        private List<UltimaConversaDto> ObterConversas(ConversaFiltroDto filtro)
         {
             return (
                 from conversa in _dbContext.Set<Conversa>()

@@ -36,6 +36,13 @@ namespace Chat.Api.Hubs
             var connectionsIds = _contatoStatusRepositorio
                 .ObterConnectionsIdsPorContatosIds(dto);
 
+            if(dto.ConversaId == 0)
+            {
+                await _hubContext.Clients.Clients(connectionsIds)
+                    .ReceberPrimeiraMensagem(mensagemDto);
+                return;
+            }
+
             await _hubContext.Clients.Clients(connectionsIds)
                 .ReceberMensagem(mensagemDto);
         }

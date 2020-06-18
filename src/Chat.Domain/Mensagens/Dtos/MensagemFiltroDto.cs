@@ -5,6 +5,8 @@ namespace Chat.Domain.Mensagens.Dtos
     public class MensagemFiltroDto : Filtro
     {
         public int ConversaId { get; set; }
+        public int ContatoId { get; set; }
+        public string Mensagem { get; set; }
         public int QtdMensagensPular { get; set; }
         public bool PrimeiraBusca { get; set; }
 
