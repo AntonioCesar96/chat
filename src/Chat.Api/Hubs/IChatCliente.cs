@@ -10,6 +10,7 @@ namespace Chat.Api.Hubs
         Task Deslogar();
         Task ReceberStatusContatoOnline(int contatoId);
         Task ReceberStatusContatoOffline(ContatoStatusDto dto);
+        Task ReceberStatusDoContato(ContatoStatusDto dto);
         Task ReceberMensagem(MensagemDto dto);
         Task ReceberPrimeiraMensagem(MensagemDto dto);
         Task ReceberContatoDigitando(bool estaDigitando, int contatoQueEstaDigitandoId);

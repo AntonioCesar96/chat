@@ -38,6 +38,11 @@ namespace Chat.Api.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
+        public async Task ObterStatusDoContato(int contatoId)
+        {
+            await _conexaoHub.ObterStatusDoContato(Context.ConnectionId, contatoId);
+        }
+
         public async Task EnviarMensagem(MensagemDto dto)
         {
             await _mensagemHub.EnviarMensagem(dto);

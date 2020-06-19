@@ -11,17 +11,20 @@ namespace Chat.Api.Hubs
         private readonly IAtualizadorDeContatoStatusApplication _atualizadorDeContatoStatus;
         private readonly IRegistradorDeConexaoApplication _registradorDeConexao;
         private readonly IConsultaConnectionsDeAmigosApplication _consultaContatoStatusDeAmigos;
+        private readonly IContatoStatusRepositorioApplication _contatoStatusRepositorio;
 
         public ConexaoHub(
             IHubContext<ChatHub, IChatCliente> hubContext,
             IAtualizadorDeContatoStatusApplication atualizadorDeContatoStatus,
             IRegistradorDeConexaoApplication registradorDeConexao,
-            IConsultaConnectionsDeAmigosApplication consultaContatoStatusDeAmigos)
+            IConsultaConnectionsDeAmigosApplication consultaContatoStatusDeAmigos,
+            IContatoStatusRepositorioApplication contatoStatusRepositorio)
         {
             _hubContext = hubContext;
             _atualizadorDeContatoStatus = atualizadorDeContatoStatus;
             _registradorDeConexao = registradorDeConexao;
             _consultaContatoStatusDeAmigos = consultaContatoStatusDeAmigos;
+            _contatoStatusRepositorio = contatoStatusRepositorio;
         }
 
         public async Task RegistrarConexao(string connectionId, int contatoId)
@@ -41,6 +44,14 @@ namespace Chat.Api.Hubs
             var connectionsContato = _consultaContatoStatusDeAmigos.Consultar(dto.ContatoId);
             await _hubContext.Clients.Clients(connectionsContato)
                 .ReceberStatusContatoOffline(dto);
+        }
+
+        public async Task ObterStatusDoContato(string connectionId, int contatoId)
+        {
+            var dto = _contatoStatusRepositorio.ObterPorContato(contatoId);
+
+            await _hubContext.Clients.Client(connectionId)
+                .ReceberStatusDoContato(dto);
         }
     }
 }
