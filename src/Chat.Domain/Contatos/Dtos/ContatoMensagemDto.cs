@@ -9,7 +9,5 @@ namespace Chat.Domain.Contatos.Dtos
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public string FotoUrl { get; set; }
-        public bool? Online { get; set; }
-        public DateTime? DataRegistroOnline { get; set; }
     }
 }

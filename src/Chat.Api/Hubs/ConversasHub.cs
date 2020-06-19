@@ -7,11 +7,11 @@ namespace Chat.Api.Hubs
 {
     public class ConversasHub
     {
-        private readonly IHubContext<ChatHub, IChatCliente> _hubContext;
+        private readonly IHubContext<ChatHub> _hubContext;
         private readonly IConsultaConversaApplication _consultaConversas;
 
         public ConversasHub(
-            IHubContext<ChatHub, IChatCliente> hubContext,
+            IHubContext<ChatHub> hubContext,
             IConsultaConversaApplication consultaConversas)
         {
             _hubContext = hubContext;
@@ -24,16 +24,7 @@ namespace Chat.Api.Hubs
             var resultado = _consultaConversas.ObterConversasDoContato(filtro);
 
             await _hubContext.Clients.Client(connectionId)
-                .ReceberConversasDoContato(resultado);
-        }
-
-        public async Task ObterConversasDoContatoPesquisa(ConversaFiltroDto filtro,
-            string connectionId)
-        {
-            var resultado = _consultaConversas.ObterConversasDoContato(filtro);
-
-            await _hubContext.Clients.Client(connectionId)
-                .ReceberConversasDoContatoPesquisa(resultado);
+                .SendAsync("ReceberConversasDoContato", resultado);
         }
     }
 }

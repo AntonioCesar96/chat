@@ -7,14 +7,14 @@ namespace Chat.Api.Hubs
 {
     public class ConexaoHub
     {
-        private readonly IHubContext<ChatHub, IChatCliente> _hubContext;
+        private readonly IHubContext<ChatHub> _hubContext;
         private readonly IAtualizadorDeContatoStatusApplication _atualizadorDeContatoStatus;
         private readonly IRegistradorDeConexaoApplication _registradorDeConexao;
         private readonly IConsultaConnectionsDeAmigosApplication _consultaContatoStatusDeAmigos;
         private readonly IContatoStatusRepositorioApplication _contatoStatusRepositorio;
 
         public ConexaoHub(
-            IHubContext<ChatHub, IChatCliente> hubContext,
+            IHubContext<ChatHub> hubContext,
             IAtualizadorDeContatoStatusApplication atualizadorDeContatoStatus,
             IRegistradorDeConexaoApplication registradorDeConexao,
             IConsultaConnectionsDeAmigosApplication consultaContatoStatusDeAmigos,
@@ -30,11 +30,13 @@ namespace Chat.Api.Hubs
         public async Task RegistrarConexao(string connectionId, int contatoId)
         {
             var ids = await _registradorDeConexao.Registrar(contatoId, connectionId);
-            await _hubContext.Clients.Clients(ids).Deslogar();
+            await _hubContext.Clients.Clients(ids).SendAsync("Deslogar");
 
+            var dto = _contatoStatusRepositorio.ObterPorContato(contatoId);
             var connectionsContato = _consultaContatoStatusDeAmigos.Consultar(contatoId);
+
             await _hubContext.Clients.Clients(connectionsContato)
-                .ReceberStatusContatoOnline(contatoId);
+                .SendAsync("ReceberStatusDoContato", dto);
         }
 
         public async Task Desconectar(string connectionId)
@@ -42,8 +44,9 @@ namespace Chat.Api.Hubs
             var dto = await _atualizadorDeContatoStatus.AtualizarParaOffline(connectionId);
 
             var connectionsContato = _consultaContatoStatusDeAmigos.Consultar(dto.ContatoId);
+
             await _hubContext.Clients.Clients(connectionsContato)
-                .ReceberStatusContatoOffline(dto);
+                .SendAsync("ReceberStatusDoContato", dto);
         }
 
         public async Task ObterStatusDoContato(string connectionId, int contatoId)
@@ -51,7 +54,7 @@ namespace Chat.Api.Hubs
             var dto = _contatoStatusRepositorio.ObterPorContato(contatoId);
 
             await _hubContext.Clients.Client(connectionId)
-                .ReceberStatusDoContato(dto);
+                .SendAsync("ReceberStatusDoContato", dto);
         }
     }
 }

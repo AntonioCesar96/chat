@@ -26,10 +26,7 @@ namespace Chat.Infra.Data.Consultas
         public ResultadoDaConsulta ObterConversasDoContato(ConversaFiltroDto filtro)
         {
             var conversas = ObterConversas(filtro);
-
             PreencherConversas(filtro, conversas);
-
-            conversas = FiltrarConversas(filtro, conversas);
 
             var retorno = new ResultadoDaConsulta();
             retorno.Total = conversas.Count();
@@ -38,15 +35,6 @@ namespace Chat.Infra.Data.Consultas
                 .ToList();
 
             return retorno;
-        }
-
-        private static List<UltimaConversaDto> FiltrarConversas(ConversaFiltroDto filtro, List<UltimaConversaDto> conversas)
-        {
-            conversas = conversas.Where(x => (
-                    string.IsNullOrEmpty(filtro.NomeContato) ||
-                    x.Nome.ToLower().Contains(filtro.NomeContato.ToLower()))
-                ).ToList();
-            return conversas;
         }
 
         private void PreencherConversas(ConversaFiltroDto filtro,
@@ -70,8 +58,6 @@ namespace Chat.Infra.Data.Consultas
                 ultimaMensagem.Nome = status?.Nome;
                 ultimaMensagem.Email = status?.Email;
                 ultimaMensagem.FotoUrl = status?.FotoUrl;
-                ultimaMensagem.Online = status?.Online;
-                ultimaMensagem.DataRegistroOnline = status?.DataRegistroOnline;
                 ultimaMensagem.UltimaMensagem = mensagem?.UltimaMensagem;
                 ultimaMensagem.ContatoRemetenteId = mensagem?.ContatoRemetenteId;
                 ultimaMensagem.ContatoDestinatarioId = mensagem?.ContatoDestinatarioId;
@@ -133,10 +119,6 @@ namespace Chat.Infra.Data.Consultas
             return (
                 from contato in _dbContext.Set<Contato>()
 
-                join statusLeft in _dbContext.Set<ContatoStatus>()
-                    on contato.Id equals statusLeft.ContatoId into statusLeft
-                from status in statusLeft.DefaultIfEmpty()
-
                 where contatosAmigosIds.Any(id => id == contato.Id)
 
                 select new ContatoMensagemDto()
@@ -144,9 +126,7 @@ namespace Chat.Infra.Data.Consultas
                     ContatoId = contato.Id,
                     Nome = contato.Nome,
                     Email = contato.Email,
-                    FotoUrl = contato.FotoUrl,
-                    Online = status != null ? (bool?)status.Online : null,
-                    DataRegistroOnline = status != null ? (DateTime?)status.Data : null,
+                    FotoUrl = contato.FotoUrl
                 }
             ).ToList();
         }

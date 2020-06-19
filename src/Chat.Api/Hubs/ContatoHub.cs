@@ -7,11 +7,11 @@ namespace Chat.Api.Hubs
 {
     public class ContatoHub
     {
-        private readonly IHubContext<ChatHub, IChatCliente> _hubContext;
+        private readonly IHubContext<ChatHub> _hubContext;
         private readonly IConsultaListaContatoApplication _consultaContatos;
 
         public ContatoHub(
-            IHubContext<ChatHub, IChatCliente> hubContext,
+            IHubContext<ChatHub> hubContext,
             IConsultaListaContatoApplication consultaContatos)
         {
             _hubContext = hubContext;
@@ -24,7 +24,7 @@ namespace Chat.Api.Hubs
             var resultado = _consultaContatos.ObterContatosAmigos(filtro);
 
             await _hubContext.Clients.Client(connectionId)
-                .ReceberContatosAmigosPesquisa(resultado);
+                .SendAsync("ReceberContatosAmigosPesquisa", resultado);
         }
     }
 }

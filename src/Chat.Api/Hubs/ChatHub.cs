@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chat.Api.Hubs
 {
-    public class ChatHub : Hub<IChatCliente>
+    public class ChatHub : Hub
     {
         private readonly MensagemHub _mensagemHub;
         private readonly ConexaoHub _conexaoHub;
@@ -61,11 +61,6 @@ namespace Chat.Api.Hubs
         public async Task ObterConversasDoContato(ConversaFiltroDto filtro)
         {
             await _conversasHub.ObterConversasDoContato(filtro, Context.ConnectionId);
-        }
-
-        public async Task ObterConversasDoContatoPesquisa(ConversaFiltroDto filtro)
-        {
-            await _conversasHub.ObterConversasDoContatoPesquisa(filtro, Context.ConnectionId);
         }
 
         public async Task ObterMensagens(MensagemFiltroDto filtro)
