@@ -5,6 +5,7 @@ using Chat.Domain.ContatosStatus.Entidades;
 using Chat.Domain.Conversas.Dtos;
 using Chat.Domain.Conversas.Entidades;
 using Chat.Domain.Conversas.Interfaces;
+using Chat.Domain.ListaContatos.Entidades;
 using Chat.Domain.Mensagens.Entidades;
 using Chat.Domain.Mensagens.Enums;
 using Chat.Infra.Data.Context;
@@ -49,11 +50,14 @@ namespace Chat.Infra.Data.Consultas
             var contatosAmigosIds = conversas.Select(x => x.ContatoAmigoId).ToList();
             var statusDosContatos = ObterStatusDosContatos(contatosAmigosIds);
 
+            var listaContatos = ObterListaContatosSeForemAmigos(filtro.ContatoId, contatosAmigosIds);
+
             conversas.ForEach(ultimaMensagem =>
             {
                 var quantidades = qtdMensagensNovasPorConversa.FirstOrDefault(y => y.ConversaId == ultimaMensagem.ConversaId);
                 var status = statusDosContatos.FirstOrDefault(y => y.ContatoId == ultimaMensagem.ContatoAmigoId);
                 var mensagem = ultimasMensagens.FirstOrDefault(y => y.UltimaMensagemId == ultimaMensagem.UltimaMensagemId);
+                var amigo = listaContatos.FirstOrDefault(y => y.ContatoAmigoId == ultimaMensagem.ContatoAmigoId);
 
                 ultimaMensagem.Nome = status?.Nome;
                 ultimaMensagem.Email = status?.Email;
@@ -66,6 +70,11 @@ namespace Chat.Infra.Data.Consultas
                 ultimaMensagem.QtdMensagensNovas = quantidades?.QtdMensagensNovas ?? 0;
                 ultimaMensagem.MostrarMensagensNovas = 
                     mensagem?.ContatoDestinatarioId == filtro.ContatoId && ultimaMensagem.QtdMensagensNovas > 0;
+
+                if (amigo != null) return;
+
+                ultimaMensagem.Nome = ultimaMensagem.Email;
+                ultimaMensagem.FotoUrl = null;
             });
         }
 
@@ -148,6 +157,14 @@ namespace Chat.Infra.Data.Consultas
                     StatusUltimaMensagem = mensagem.StatusMensagem,
                 }
             ).ToList();
+        }
+
+        private List<ListaContato> ObterListaContatosSeForemAmigos(int contatoId, List<int> contatosAmigosIds)
+        {
+            return _dbContext.Set<ListaContato>()
+                    .Where(lista => lista.ContatoPrincipalId == contatoId 
+                        && contatosAmigosIds.Any(id => id == lista.ContatoAmigoId)
+                    ).ToList();
         }
     }
 }

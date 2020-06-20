@@ -73,6 +73,7 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IConsultaConversa), typeof(ConsultaConversa));
             services.AddScoped(typeof(IConsultaMensagem), typeof(ConsultaMensagem));
             services.AddScoped(typeof(IConsultaConnectionsDeAmigos), typeof(ConsultaConnectionsDeAmigos));
+            services.AddScoped(typeof(IConsultaMensagemParaPrimeiraMensagemDaConversa), typeof(ConsultaMensagemParaPrimeiraMensagemDaConversa));
             services.AddScoped(typeof(IContatoRepositorio), typeof(ContatoRepositorio));
             services.AddScoped(typeof(IContatoStatusRepositorio), typeof(ContatoStatusRepositorio));
             services.AddScoped(typeof(IListaContatoRepositorio), typeof(ListaContatoRepositorio));

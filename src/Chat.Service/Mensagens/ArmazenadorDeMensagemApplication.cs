@@ -9,13 +9,16 @@ namespace Chat.Application.Mensagens
     public class ArmazenadorDeMensagemApplication : IArmazenadorDeMensagemApplication
     {
         private readonly IArmazenadorDeMensagem _armazenadorMensagem;
+        private readonly IConsultaMensagemParaPrimeiraMensagemDaConversa _consultaMensagemParaPrimeiraMensagemDaConversa;
         private readonly IMapper _mapper;
 
         public ArmazenadorDeMensagemApplication(
             IArmazenadorDeMensagem armazenadorMensagem,
+            IConsultaMensagemParaPrimeiraMensagemDaConversa consultaMensagemParaPrimeiraMensagemDaConversa,
             IMapper mapper)
         {
             _armazenadorMensagem = armazenadorMensagem;
+            _consultaMensagemParaPrimeiraMensagemDaConversa = consultaMensagemParaPrimeiraMensagemDaConversa;
             _mapper = mapper;
         }
 
@@ -24,7 +27,7 @@ namespace Chat.Application.Mensagens
             var mensagem = await _armazenadorMensagem.Salvar(dto);
 
             if (dto.ConversaId == 0)
-                return _mapper.Map<MensagemContatosDto>(mensagem);
+                return _consultaMensagemParaPrimeiraMensagemDaConversa.ObterMensagem(mensagem.Id);
             return _mapper.Map<MensagemDto>(mensagem);
         }
     }

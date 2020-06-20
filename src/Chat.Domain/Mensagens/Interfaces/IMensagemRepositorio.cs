@@ -6,7 +6,6 @@ namespace Chat.Domain.Mensagens.Interfaces
 {
     public interface IMensagemRepositorio
     {
-        Mensagem ObterPorId(int mensagemId);
         Task Salvar(Mensagem mensagem);
         List<Mensagem> ObterMensagensNaoLidasPorConversa(int conversaId);
         List<Mensagem> ObterMensagensNaoLidas(int conversaId, int mensagemId);

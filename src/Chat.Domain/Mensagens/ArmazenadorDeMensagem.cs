@@ -36,9 +36,6 @@ namespace Chat.Domain.Mensagens
 
             await _mensagemRepositorio.Salvar(mensagem);
 
-            if(dto.ConversaId == 0)
-                mensagem = _mensagemRepositorio.ObterPorId(mensagem.Id);
-
             return mensagem;
         }
 
