@@ -1,6 +1,7 @@
 ﻿using Chat.Domain.ContatosStatus.Entidades;
 using Chat.Domain.ContatosStatus.Interfaces;
 using Chat.Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace Chat.Infra.Data.Repositorios
         public ContatoStatus ObterPorContato(int contatoId)
         {
             return _dbContext.Set<ContatoStatus>()
+                .Include(x => x.Contato)
                 .FirstOrDefault(x => x.ContatoId == contatoId);
         }
 

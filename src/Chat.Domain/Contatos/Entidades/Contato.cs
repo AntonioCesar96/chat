@@ -45,5 +45,15 @@ namespace Chat.Domain.Contatos.Entidades
         {
             Senha = string.Empty;
         }
+
+        public void AlterarNome(string nome)
+        {
+            Nome = nome;
+        }
+
+        public void AlterarDescricao(string descricao)
+        {
+            Descricao = descricao;
+        }
     }
 }

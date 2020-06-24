@@ -17,5 +17,6 @@
         public const string MsgJaExisteUmaContaComEsseEmail = "Já existe uma conta com esse e-mail.";
         public const string MsgEmailInvalido = "E-mail inválido.";
         public const string MsgSenhaEntreSeisDezCaracteres = "A senha deve conter entre 6 e 10 caracteres.";
+        public const string MsgNaoNaoPodeSerVazio = "O nome nao pode ser vazio.";
     }
 }

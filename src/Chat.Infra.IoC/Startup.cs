@@ -26,7 +26,6 @@ using Chat.Application.ContatosStatus.Interfaces;
 using Chat.Application.Mensagens.Interfaces;
 using Chat.Application.Mensagens;
 using Chat.Application.ContatosStatus;
-using AutoMapper;
 using Chat.Infra.IoC.AutoMapper;
 
 namespace Chat.Infra.IoC
@@ -44,6 +43,7 @@ namespace Chat.Infra.IoC
 
             // Application
             services.AddScoped(typeof(IArmazenadorDeContatoApplication), typeof(ArmazenadorDeContatoApplication));
+            services.AddScoped(typeof(IAtualizadorDeContatoApplication), typeof(AtualizadorDeContatoApplication));
             services.AddScoped(typeof(IConsultaConnectionsDeAmigosApplication), typeof(ConsultaConnectionsDeAmigosApplication));
             services.AddScoped(typeof(IArmazenadorContatoAmigoApplication), typeof(ArmazenadorContatoAmigoApplication));
             services.AddScoped(typeof(IArmazenadorDeMensagemApplication), typeof(ArmazenadorDeMensagemApplication));
@@ -58,6 +58,7 @@ namespace Chat.Infra.IoC
 
             // Domain
             services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));
+            services.AddScoped(typeof(IAtualizadorDeContato), typeof(AtualizadorDeContato));
             services.AddScoped(typeof(IArmazenadorDeContatoStatus), typeof(ArmazenadorDeContatoStatus));
             services.AddScoped(typeof(IArmazenadorContatoAmigo), typeof(ArmazenadorContatoAmigo));
             services.AddScoped(typeof(IArmazenadorDeConversa), typeof(ArmazenadorDeConversa));

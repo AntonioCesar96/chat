@@ -56,5 +56,15 @@ namespace Chat.Api.Hubs
             await _hubContext.Clients.Client(connectionId)
                 .SendAsync("ReceberStatusDoContato", dto);
         }
+
+        public async Task AvisarAmigosSobreMudandoEmMeusDados(int contatoId)
+        {
+            var dto = _contatoStatusRepositorio.ObterPorContato(contatoId);
+
+            var connectionsContato = _consultaContatoStatusDeAmigos.Consultar(contatoId);
+
+            await _hubContext.Clients.Clients(connectionsContato)
+                .SendAsync("ReceberStatusDoContato", dto);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Chat.Domain.Conversas.Dtos;
+﻿using Chat.Domain.Contatos.Dtos;
+using Chat.Domain.Conversas.Dtos;
 using Chat.Domain.ListaContatos.Dtos;
 using Chat.Domain.Mensagens.Dtos;
 using Microsoft.AspNetCore.SignalR;
@@ -71,6 +72,12 @@ namespace Chat.Api.Hubs
         public async Task ObterContatosAmigosPesquisa(ListaContatoFiltroDto filtro)
         {
             await _contatoHub.ObterContatosAmigosPesquisa(filtro, Context.ConnectionId);
+        }
+
+        public async Task AtualizarDadosContato(ContatoDto dto)
+        {
+            await _contatoHub.AtualizarDadosContato(dto);
+            await _conexaoHub.AvisarAmigosSobreMudandoEmMeusDados(dto.ContatoId);
         }
     }
 }

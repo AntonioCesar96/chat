@@ -8,5 +8,6 @@ namespace Chat.Domain.Contatos.Interfaces
         Task Salvar(Contato contato);
         Contato ObterPorEmail(string email);
         Contato ObterPorEmailSenha(string email, string senha);
+        Contato ObterPorId(int id);
     }
 }
