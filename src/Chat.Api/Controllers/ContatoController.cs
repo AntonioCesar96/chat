@@ -16,21 +16,18 @@ namespace Chat.Api.Controllers
         private readonly IArmazenadorDeContatoApplication _armazenadorDeContato;
         private readonly IAutenticacaoContatoApplication _autenticacaoContato;
         private readonly IContatoRepositorioApplication _contatoRepositorio;
-        private readonly ITokenManager _tokenManager;
 
         public ContatoController(
             IDomainNotificationHandlerAsync<DomainNotification> notificacaoDeDominio,
             IArmazenadorDeContatoApplication armazenadorDeContato,
             IAutenticacaoContatoApplication autenticacaoContato,
             IContatoRepositorioApplication contatoRepositorio,
-            TokenService tokenService,
-            ITokenManager tokenManager) : base(notificacaoDeDominio)
+            TokenService tokenService) : base(notificacaoDeDominio)
         {
             _armazenadorDeContato = armazenadorDeContato;
             _autenticacaoContato = autenticacaoContato;
             _tokenService = tokenService;
             _contatoRepositorio = contatoRepositorio;
-            _tokenManager = tokenManager;
         }
 
         [HttpPost]
@@ -60,14 +57,6 @@ namespace Chat.Api.Controllers
         {
             var contato = _contatoRepositorio.ObterPorEmail(email);
             return Ok(contato);
-        }
-
-        [HttpPost("desconectar")]
-        [Authorize]
-        public async Task<IActionResult> Desconectar()
-        {
-            await _tokenManager.DeactivateCurrentAsync();
-            return Ok(true);
         }
     }
 }
