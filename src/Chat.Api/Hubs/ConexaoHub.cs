@@ -1,4 +1,5 @@
-﻿using Chat.Application.Contatos.Interfaces;
+﻿using Chat.Api.Jwt;
+using Chat.Application.Contatos.Interfaces;
 using Chat.Application.ContatosStatus.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Chat.Api.Hubs
         private readonly IAtualizadorDeContatoStatusApplication _atualizadorDeContatoStatus;
         private readonly IRegistradorDeConexaoApplication _registradorDeConexao;
         private readonly IConsultaConnectionsDeAmigosApplication _consultaContatoStatusDeAmigos;
-        private readonly IContatoStatusRepositorioApplication _contatoStatusRepositorio;
+        private readonly IContatoStatusRepositorioApplication _contatoStatusRepositorio;        
 
         public ConexaoHub(
             IHubContext<ChatHub> hubContext,
@@ -24,7 +25,7 @@ namespace Chat.Api.Hubs
             _atualizadorDeContatoStatus = atualizadorDeContatoStatus;
             _registradorDeConexao = registradorDeConexao;
             _consultaContatoStatusDeAmigos = consultaContatoStatusDeAmigos;
-            _contatoStatusRepositorio = contatoStatusRepositorio;
+            _contatoStatusRepositorio = contatoStatusRepositorio;            
         }
 
         public async Task RegistrarConexao(string connectionId, int contatoId)
@@ -42,6 +43,7 @@ namespace Chat.Api.Hubs
         public async Task Desconectar(string connectionId)
         {
             var dto = await _atualizadorDeContatoStatus.AtualizarParaOffline(connectionId);
+            if (dto == null) return;
 
             var connectionsContato = _consultaContatoStatusDeAmigos.Consultar(dto.ContatoId);
 

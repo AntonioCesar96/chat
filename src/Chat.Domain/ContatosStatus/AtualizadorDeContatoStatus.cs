@@ -21,6 +21,7 @@ namespace Chat.Domain.ContatosStatus
         public async Task<ContatoStatus> AtualizarParaOffline(string connectionId)
         {
             var contatoStatus = _contatoStatusRepositorio.ObterPorConnection(connectionId);
+            if (contatoStatus == null) return null;
 
             AtualizarParaOffline(contatoStatus);
 

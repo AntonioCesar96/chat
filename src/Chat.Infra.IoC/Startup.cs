@@ -55,6 +55,7 @@ namespace Chat.Infra.IoC
             services.AddScoped(typeof(IRegistradorDeConexaoApplication), typeof(RegistradorDeConexaoApplication));
             services.AddScoped(typeof(IContatoStatusRepositorioApplication), typeof(ContatoStatusRepositorioApplication));
             services.AddScoped(typeof(IMarcadorDeMensagemLidaApplication), typeof(MarcadorDeMensagemLidaApplication));
+            services.AddScoped(typeof(IContatoRepositorioApplication), typeof(ContatoRepositorioApplication));
 
             // Domain
             services.AddScoped(typeof(IArmazenadorDeContato), typeof(ArmazenadorDeContato));

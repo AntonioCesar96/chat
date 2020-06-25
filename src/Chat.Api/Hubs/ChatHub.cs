@@ -1,30 +1,33 @@
-﻿using Chat.Domain.Contatos.Dtos;
+﻿using Chat.Api.Jwt;
+using Chat.Domain.Contatos.Dtos;
 using Chat.Domain.Conversas.Dtos;
 using Chat.Domain.ListaContatos.Dtos;
 using Chat.Domain.Mensagens.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading.Tasks;
 
 namespace Chat.Api.Hubs
 {
+    [Authorize]
     public class ChatHub : Hub
     {
         private readonly MensagemHub _mensagemHub;
         private readonly ConexaoHub _conexaoHub;
         private readonly ConversasHub _conversasHub;
-        private readonly ContatoHub _contatoHub;
+        private readonly ContatoHub _contatoHub;        
 
         public ChatHub(
             ConexaoHub conexaoHub,
             MensagemHub mensagemHub,
             ConversasHub conversasHub,
-            ContatoHub contatoHub)
+            ContatoHub contatoHub            )
         {
             _conexaoHub = conexaoHub;
             _mensagemHub = mensagemHub;
             _conversasHub = conversasHub;
-            _contatoHub = contatoHub;
+            _contatoHub = contatoHub;            
         }
 
         public async Task RegistrarConexao(int contatoId)
