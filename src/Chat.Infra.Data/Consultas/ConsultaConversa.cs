@@ -62,6 +62,7 @@ namespace Chat.Infra.Data.Consultas
                 ultimaMensagem.Nome = status?.Nome;
                 ultimaMensagem.Email = status?.Email;
                 ultimaMensagem.FotoUrl = status?.FotoUrl;
+                ultimaMensagem.EhAmigo = true;
                 ultimaMensagem.UltimaMensagem = mensagem?.UltimaMensagem;
                 ultimaMensagem.ContatoRemetenteId = mensagem?.ContatoRemetenteId;
                 ultimaMensagem.ContatoDestinatarioId = mensagem?.ContatoDestinatarioId;
@@ -73,6 +74,7 @@ namespace Chat.Infra.Data.Consultas
 
                 if (amigo != null) return;
 
+                ultimaMensagem.EhAmigo = false;
                 ultimaMensagem.Nome = ultimaMensagem.Email;
                 ultimaMensagem.FotoUrl = null;
             });

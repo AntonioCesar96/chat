@@ -13,4 +13,6 @@
     <ProjectReference Include="..\Chat.Infra.IoC\Chat.Infra.IoC.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

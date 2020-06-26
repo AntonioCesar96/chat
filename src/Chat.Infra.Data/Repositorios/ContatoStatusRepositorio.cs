@@ -52,6 +52,7 @@ namespace Chat.Infra.Data.Repositorios
         public ContatoStatus ObterPorConnection(string connectionId)
         {
             return _dbContext.Set<ContatoStatus>()
+                .Include(x => x.Contato)
                 .FirstOrDefault(x => x.ConnectionId == connectionId);
         }
 

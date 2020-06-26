@@ -24,8 +24,8 @@ namespace Chat.Domain.ContatosStatus
             if (contatoStatus == null) return null;
 
             AtualizarParaOffline(contatoStatus);
-
             await _contatoStatusRepositorio.Atualizar(contatoStatus);
+
             return contatoStatus;
         }
 

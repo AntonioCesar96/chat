@@ -32,6 +32,15 @@ namespace Chat.Api.Hubs
                 .SendAsync("ReceberContatosAmigosPesquisa", resultado);
         }
 
+        public async Task ObterTodosOsContatosAmigos(ListaContatoFiltroDto filtro,
+            string connectionId)
+        {
+            var resultado = _consultaContatos.ObterContatosAmigos(filtro);
+
+            await _hubContext.Clients.Client(connectionId)
+                .SendAsync("ReceberTodosOsContatosAmigos", resultado);
+        }
+
         public async Task AtualizarDadosContato(ContatoDto dto)
         {
             await _atualizadorDeContato.Atualizar(dto);

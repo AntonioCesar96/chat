@@ -77,6 +77,11 @@ namespace Chat.Api.Hubs
             await _contatoHub.ObterContatosAmigosPesquisa(filtro, Context.ConnectionId);
         }
 
+        public async Task ObterTodosOsContatosAmigos(ListaContatoFiltroDto filtro)
+        {
+            await _contatoHub.ObterTodosOsContatosAmigos(filtro, Context.ConnectionId);
+        }
+
         public async Task AtualizarDadosContato(ContatoDto dto)
         {
             await _contatoHub.AtualizarDadosContato(dto);
