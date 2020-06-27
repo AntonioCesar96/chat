@@ -32,6 +32,8 @@ namespace Chat.Domain.ListaContatos
             if (!await ValidarSeListaContatoEstaValido(listaContato)) return null;
 
             await _listaContatoRepositorio.Salvar(listaContato);
+            listaContato.AtribuirContatoAmigo(contato);
+
             return listaContato;
         }
 
@@ -42,9 +44,10 @@ namespace Chat.Domain.ListaContatos
 
         private async Task<bool> ValidarSeListaContatoEstaValido(ListaContato listaContato)
         {
-            if (listaContato.Validar()) return true;
+            var listaContatoDuplicado =_listaContatoRepositorio.ObterPorListaContato(listaContato);
+            if (listaContatoDuplicado == null) return true;
 
-            await NotificarValidacoesDeDominio(listaContato.ValidationResult);
+            await NotificarErroDeServico(ChatResources.MsgContatoJaAdicionadoComoAmigo);
             return false;
         }
 

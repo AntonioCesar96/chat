@@ -21,7 +21,7 @@ namespace Chat.Domain.Contatos
             _validadorDeContato = validadorDeContato;
         }
 
-        public async Task<Contato> Salvar(ContatoDto dto)
+        public async Task<Contato> Salvar(ContatoCriacaoDto dto)
         {
             Contato contato = CriarContato(dto);
             if (!await ValidarSeContatoEstaValido(contato)) return null;
@@ -30,7 +30,7 @@ namespace Chat.Domain.Contatos
             return contato;
         }
 
-        private Contato CriarContato(ContatoDto dto)
+        private Contato CriarContato(ContatoCriacaoDto dto)
         {
             return new Contato(dto.Nome, dto.Email, dto.Senha);
         }

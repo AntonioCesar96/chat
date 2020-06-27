@@ -19,7 +19,7 @@ namespace Chat.Application.Contatos
             _mapper = mapper;
         }
 
-        public async Task<ContatoDto> Salvar(ContatoDto dto)
+        public async Task<ContatoDto> Salvar(ContatoCriacaoDto dto)
         {
             var contato = await _armazenadorDeContato.Salvar(dto);
             return _mapper.Map<ContatoDto>(contato);

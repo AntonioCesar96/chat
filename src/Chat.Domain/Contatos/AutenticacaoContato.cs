@@ -32,7 +32,6 @@ namespace Chat.Domain.Contatos
                 ChatResources.MsgSenhaInvalida))
                 return null;
 
-            contato.LimparSenha();
             return contato;
         }
     }

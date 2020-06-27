@@ -6,6 +6,6 @@ namespace Chat.Domain.Contatos.Interfaces
 {
     public interface IArmazenadorDeContato
     {
-        Task<Contato> Salvar(ContatoDto dto);
+        Task<Contato> Salvar(ContatoCriacaoDto dto);
     }
 }

@@ -1,18 +1,14 @@
 ﻿using Chat.Api.Hubs;
 using Chat.Api.Jwt;
 using Chat.Infra.Data.Context;
-using Chat.Infra.IoC.AutoMapper;
 using Chat.Infra.IoC.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Chat.Api
 {
@@ -60,12 +56,25 @@ namespace Chat.Api
             else
                 app.UseHsts();
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
+
+            /*
+            app.Use(async (context, next) =>
+            {
+                var url = context.Request.Path.Value;
+                if (url.Contains("api") || url.Contains("chatHub"))
+                {
+                    await next();
+                    return;
+                }
+                context.Response.Redirect("/index.html");
+            });
+            */
 
             app.UseEndpoints(endpoints =>
             {

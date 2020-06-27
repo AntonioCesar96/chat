@@ -6,5 +6,6 @@ namespace Chat.Domain.ListaContatos.Interfaces
     public interface IListaContatoRepositorio
     {
         Task Salvar(ListaContato contato);
+        ListaContato ObterPorListaContato(ListaContato listaContato);
     }
 }

@@ -18,5 +18,6 @@
         public const string MsgEmailInvalido = "E-mail inválido.";
         public const string MsgSenhaEntreSeisDezCaracteres = "A senha deve conter entre 6 e 10 caracteres.";
         public const string MsgNaoNaoPodeSerVazio = "O nome nao pode ser vazio.";
+        public const string MsgContatoJaAdicionadoComoAmigo = "Contato já adicionado como amigo.";
     }
 }

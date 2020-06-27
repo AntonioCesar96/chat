@@ -22,7 +22,7 @@ namespace Chat.Api.Hubs
             ConexaoHub conexaoHub,
             MensagemHub mensagemHub,
             ConversasHub conversasHub,
-            ContatoHub contatoHub            )
+            ContatoHub contatoHub)
         {
             _conexaoHub = conexaoHub;
             _mensagemHub = mensagemHub;
@@ -86,6 +86,11 @@ namespace Chat.Api.Hubs
         {
             await _contatoHub.AtualizarDadosContato(dto);
             await _conexaoHub.AvisarAmigosSobreMudandoEmMeusDados(dto.ContatoId);
+        }
+
+        public async Task AdicionarContatoAmigo(ContatoAmigoCriacaoDto dto)
+        {
+            await _contatoHub.AdicionarContatoAmigo(dto, Context.ConnectionId);
         }
     }
 }

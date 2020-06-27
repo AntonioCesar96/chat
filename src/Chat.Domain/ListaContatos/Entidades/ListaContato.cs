@@ -34,5 +34,10 @@ namespace Chat.Domain.ListaContatos.Entidades
             ValidationResult = Validate(this);
             return ValidationResult.IsValid;
         }
+
+        public void AtribuirContatoAmigo(Contato contatoAmigo)
+        {
+            ContatoAmigo = contatoAmigo;
+        }
     }
 }

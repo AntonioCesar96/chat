@@ -32,7 +32,7 @@ namespace Chat.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Salvar([FromBody] ContatoDto dto)
+        public async Task<ActionResult> Salvar([FromBody] ContatoCriacaoDto dto)
         {
             var contato = await _armazenadorDeContato.Salvar(dto);
             if (!OperacaoValida()) return ResponderErros();
