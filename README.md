@@ -1,20 +1,30 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Chat
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+![Preview-Screens](https://github.com/AntonioCesar96/chat-web/blob/master/telas.gif)
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Para acessar o código do front-end [clique aqui](https://github.com/AntonioCesar96/chat-web).
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## Sobre este projeto
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
+A ideia desse aplicativo é poder trocar mensagens.
+
+## Por quê?
+
+Este projeto faz parte do meu portfólio pessoal.
+O iniciei por uma vontade pessoal de criar um aplicativo de mensagens, sempre achei interessante aplicações real time, e gostaria de em algum momento desenvolver algo usando essa tecnologia, por isso este projeto.
+
+Email: antoniocss19@gmail.com
+
+LinkedIn: [LinkedIn](https://www.linkedin.com/in/antonio-cesar-9a78a7ba/).
+
+## Construído com
+
+- [Angular](https://angular.io/) - Angular
+- [.NET Core](https://dotnet.microsoft.com/) - .NET Core
+- [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) - SignalR
 - [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT - consulte o arquivo [LICENSE.md](https://github.com/AntonioCesar96/chat/blob/master/LICENSE.md) para obter detalhes.
+
