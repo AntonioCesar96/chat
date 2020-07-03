@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{A8DD8E88-6E68-4FB5-90DA-3EC725705A32}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Application", "src\Chat.Service\Chat.Application.csproj", "{18AE2D0F-8462-4831-8199-F4ADC38BB9A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Application", "src\Chat.Application\Chat.Application.csproj", "{18AE2D0F-8462-4831-8199-F4ADC38BB9A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Domain", "src\Chat.Domain\Chat.Domain.csproj", "{8DC2EAC1-A08D-4170-AA4D-C65D8535BA88}"
 EndProject
